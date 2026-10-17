@@ -21,6 +21,10 @@ Then open http://localhost:5173.
 
 Write / Split / Read views, autosave, ⌘S / ⌘E, rename by clicking the title, a filter box, a download button, and dark mode. Relative links (`[x](other.md)`, `[y](level-2/)`) and images (`![](../images/a.png)`) work.
 
+## Live site (Vercel)
+
+https://kaccha-chitta-one.vercel.app shows the `notes/` collections **read-only**. Static hosting can't run `server.js`, so it reads the list of notes from `notes/index.json`. The server keeps that file up to date, and `npm run build` regenerates it on deploy. To change notes, edit them on localhost, then commit and push.
+
 The server only listens on `127.0.0.1`, so it's reachable from this computer only.
 
 Files: `index.html`, `style.css`, `app.js`, `server.js`.

@@ -87,13 +87,32 @@ function broadcast(rel) {
   }, 150);
 }
 
+// ---------- notes/index.json: the note list for static hosting (e.g. Vercel) ----------
+const MANIFEST = path.join(NOTES, 'index.json');
+async function writeManifest() {
+  const cols = (await collections()).map((c) => ({ name: c.name, files: c.files.sort() }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const json = JSON.stringify(cols, null, 2) + '\n';
+  const old = await fsp.readFile(MANIFEST, 'utf8').catch(() => '');
+  if (json !== old) await fsp.writeFile(MANIFEST, json, 'utf8');
+}
+
+if (process.argv.includes('--manifest')) {
+  writeManifest().then(() => console.log('wrote notes/index.json'), (err) => { console.error(err); process.exit(1); });
+  return;
+}
+
+let manifestTimer;
 fs.mkdirSync(NOTES, { recursive: true });
 fs.watch(NOTES, { recursive: true }, (_event, file) => {
   if (!file) return broadcast('');
   const rel = file.split(path.sep).join('/');
-  if (rel.split('/').some((s) => s.startsWith('.'))) return;
+  if (rel === 'index.json' || rel.split('/').some((s) => s.startsWith('.'))) return;
   broadcast(rel);
+  clearTimeout(manifestTimer);
+  manifestTimer = setTimeout(() => writeManifest().catch(console.error), 300);
 });
+writeManifest().catch(console.error);
 
 // ---------- API ----------
 async function handleApi(req, res, url) {

@@ -168,28 +168,37 @@ Your rough notebook. Everything here is plain **markdown**.
   const prettyName = (n) => n.split(/[-_\s]+/).filter(Boolean)
     .map((w) => (ACRONYMS.has(w.toLowerCase()) ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1))).join(' ');
 
+  // With server.js running the notes are editable; on static hosting (Vercel) they are
+  // read from notes/index.json + the plain files, read-only.
   class ServerSource {
-    constructor(dir) { this.dir = dir; this.id = 'srv:' + dir; this.name = prettyName(dir); this.kind = 'server'; this.ready = true; this.files = []; }
+    constructor(dir, readOnly = false) {
+      this.dir = dir; this.id = 'srv:' + dir; this.name = prettyName(dir); this.kind = 'server';
+      this.ready = true; this.readOnly = readOnly; this.files = [];
+    }
     q(p) { return '?p=' + encodeURIComponent(this.dir + '/' + p); }
+    fileUrl(p) { return 'notes/' + (this.dir + '/' + p).split('/').map(encodeURIComponent).join('/'); }
     paths() { return this.files; }
     async refresh() { await syncServer(); }
-    async exists(p) { try { await this.stat(p); return true; } catch { return false; } }
-    async read(p) { return (await api('GET', '/api/file' + this.q(p))).text(); }
-    async stat(p) { return (await (await api('GET', '/api/stat' + this.q(p))).json()).mtime; }
+    async exists(p) { return this.readOnly ? this.files.includes(p) : this.stat(p).then(() => true, () => false); }
+    async read(p) { return (await api('GET', this.readOnly ? this.fileUrl(p) : 'api/file' + this.q(p))).text(); }
+    async stat(p) { return this.readOnly ? 0 : (await (await api('GET', 'api/stat' + this.q(p))).json()).mtime; }
     async write(p, content) {
-      await api('PUT', '/api/file' + this.q(p), content);
+      if (this.readOnly) throw new Error('read-only on the live site');
+      await api('PUT', 'api/file' + this.q(p), content);
       if (!this.files.includes(p)) { this.files.push(p); this.files.sort(byPath); }
     }
     async remove(p) {
-      await api('DELETE', '/api/file' + this.q(p));
+      if (this.readOnly) throw new Error('read-only on the live site');
+      await api('DELETE', 'api/file' + this.q(p));
       this.files = this.files.filter((f) => f !== p);
     }
     async rename(from, to) {
-      await api('POST', '/api/rename', JSON.stringify({ from: this.dir + '/' + from, to: this.dir + '/' + to }));
+      if (this.readOnly) throw new Error('read-only on the live site');
+      await api('POST', 'api/rename', JSON.stringify({ from: this.dir + '/' + from, to: this.dir + '/' + to }));
       this.files = this.files.filter((f) => f !== from);
       this.files.push(to); this.files.sort(byPath);
     }
-    async asset(p) { return '/notes/' + (this.dir + '/' + p).split('/').map(encodeURIComponent).join('/'); }
+    async asset(p) { return this.fileUrl(p); }
   }
 
   // ---------- State ----------
@@ -362,8 +371,8 @@ Your rough notebook. Everything here is plain **markdown**.
       label.textContent = source.name;
       label.title = source.name;
       head.append(label);
-      if (source.ready) head.append(headButton(ICON.plus, `New note in ${source.name}`, () => newNote(source)));
-      if (source.kind !== 'local' && source.ready) {
+      if (source.ready && !source.readOnly) head.append(headButton(ICON.plus, `New note in ${source.name}`, () => newNote(source)));
+      if (source.kind !== 'local' && source.ready && !source.readOnly) {
         head.append(headButton(ICON.refresh, 'Reload folder', async () => { await source.refresh(); renderTree(); toast('Folder reloaded'); }));
       }
       if (source.kind === 'folder') {
@@ -416,8 +425,14 @@ Your rough notebook. Everything here is plain **markdown**.
     el.crumb.textContent = dir ? `${c.source.name} / ${dir.replaceAll('/', ' / ')} /` : `${c.source.name} /`;
     el.where.textContent = {
       folder: `On disk · ${c.source.name}/${c.path}`,
-      server: `Synced with notes/${c.source.dir}/${c.path}`,
+      server: c.source.readOnly
+        ? 'Read-only here · edit on localhost, then push'
+        : `Synced with notes/${c.source.dir}/${c.path}`,
     }[c.source.kind] ?? 'Saved in this browser';
+    const locked = !!c.source.readOnly;
+    el.editor.readOnly = locked;
+    el.title.disabled = locked;
+    $('#delete').disabled = locked;
     document.title = `${stripExt(baseName(c.path))} · Kaccha Chittha`;
   }
 
@@ -526,7 +541,7 @@ Your rough notebook. Everything here is plain **markdown**.
 
   // ---------- Actions ----------
   async function newNote(source = state.current?.source ?? local) {
-    if (!source.ready) source = local;
+    if (!source.ready || source.readOnly) source = local;
     const startDir = state.current?.source === source ? dirName(state.current.path) : '';
     const suggested = await uniquePath(source, withExt((startDir ? startDir + '/' : '') + 'Untitled'));
     const name = await ask({
@@ -812,11 +827,11 @@ Your rough notebook. Everything here is plain **markdown**.
   });
 
   // Keep the ./notes collections in sync with the server's list of folders
-  async function syncServer() {
-    const cols = await (await api('GET', '/api/collections')).json();
+  async function syncServer(staticMode = state.staticNotes) {
+    const cols = await (await api('GET', staticMode ? 'notes/index.json' : 'api/collections')).json();
     const existing = new Map(state.sources.filter((s) => s.kind === 'server').map((s) => [s.dir, s]));
     const fresh = cols.sort((a, b) => byPath(a.name, b.name)).map(({ name, files }) => {
-      const s = existing.get(name) ?? new ServerSource(name);
+      const s = existing.get(name) ?? new ServerSource(name, staticMode);
       s.files = files.sort(byPath);
       return s;
     });
@@ -826,7 +841,7 @@ Your rough notebook. Everything here is plain **markdown**.
   }
 
   function listenForServerChanges() {
-    const events = new EventSource('/api/events');
+    const events = new EventSource('api/events');
     events.onmessage = async () => {
       try { await syncServer(); } catch { return; }
       renderTree();
@@ -850,10 +865,13 @@ Your rough notebook. Everything here is plain **markdown**.
     try { await local.load(); } catch (err) { toast(`Browser storage is unavailable: ${err.message}`); }
 
     try {
-      await syncServer();
+      await syncServer(false);
       state.hasServer = true;
       listenForServerChanges();
-    } catch { /* opened without server.js (e.g. static hosting) — browser-only mode */ }
+    } catch {
+      // No server.js (e.g. the Vercel site): show notes/ read-only from notes/index.json
+      try { await syncServer(true); state.staticNotes = true; } catch { /* browser-only mode */ }
+    }
 
     if (canOpenFolders) {
       const saved = (await kv.get('folders').catch(() => null)) || [];
