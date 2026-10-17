@@ -19,6 +19,12 @@ Then open http://localhost:5173.
 
 Collections: HTML, CSS, JavaScript, React, DSA, OOPs, SQL and OS notes. Each one is a collapsible menu in the sidebar, and each has a `change-notes.md` pinned at the top for listing what to fix later.
 
+### Editing change notes on the live site
+
+On the live site, the **Change notes** page in each collection can be edited. Each save is committed to this GitHub repo by `api/change-notes.js`, a Vercel function that checks the password and can only write `notes/*/change-notes.md`. These commits are tagged `[skip deploy]`, and `vercel.json` tells Vercel not to rebuild for them. Run `git pull` to get them on your computer.
+
+Setup (one time): create a fine-grained GitHub token with **Contents: Read and write** on this repo only. Add it in Vercel → Project → Settings → Environment Variables as `GITHUB_TOKEN`, then redeploy.
+
 ## Password
 
 The site asks for one shared password each time it's opened in a new tab. Only its SHA-256 hash is in the code. This is a simple lock screen, not real security: the repo is public, so anyone can read the notes on GitHub or open their file URLs directly. To keep them truly private, make the repo private.

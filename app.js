@@ -153,16 +153,28 @@ Your rough notebook. Everything here is plain **markdown**.
   }
 
   // Notes in the project's ./notes/<collection> folders, read and written through server.js
-  async function api(method, url, body) {
+  async function api(method, url, body, headers) {
     const res = await fetch(url, {
       method,
       body,
-      headers: method === 'POST' ? { 'Content-Type': 'application/json' } : undefined,
+      headers: headers ?? (method === 'POST' ? { 'Content-Type': 'application/json' } : undefined),
       cache: 'no-store',
     });
-    if (!res.ok) throw new Error((await res.text()) || res.statusText);
+    if (!res.ok) {
+      const err = new Error((await res.text()) || res.statusText);
+      err.status = res.status;
+      throw err;
+    }
     return res;
   }
+
+  // On the live site, change-notes.md files are read and saved through api/change-notes (→ GitHub).
+  const CHANGE_NOTES = 'change-notes.md';
+  let sitePassword = '';
+  const changeNotesApi = (dir, method, body) => api(method, 'api/change-notes?c=' + encodeURIComponent(dir), body, {
+    'X-Password': sitePassword,
+    ...(body ? { 'Content-Type': 'application/json' } : {}),
+  });
 
   const ACRONYMS = new Set(['html', 'css', 'js', 'ts', 'api', 'sql', 'dsa', 'os', 'ui', 'ux', 'dom', 'http', 'git']);
   const SPECIAL = { oops: 'OOPs', javascript: 'JavaScript', dbms: 'DBMS' };
@@ -177,15 +189,37 @@ Your rough notebook. Everything here is plain **markdown**.
     constructor(dir, readOnly = false) {
       this.dir = dir; this.id = 'srv:' + dir; this.name = prettyName(dir); this.kind = 'server';
       this.ready = true; this.readOnly = readOnly; this.files = [];
+      this.remoteOff = false; this.remoteSha = null;
     }
     q(p) { return '?p=' + encodeURIComponent(this.dir + '/' + p); }
     fileUrl(p) { return 'notes/' + (this.dir + '/' + p).split('/').map(encodeURIComponent).join('/'); }
+    isRemote(p) { return this.readOnly && !this.remoteOff && p === CHANGE_NOTES; }
+    canEdit(p) { return !this.readOnly || this.isRemote(p); }
     paths() { return this.files; }
     async refresh() { await syncServer(); }
     async exists(p) { return this.readOnly ? this.files.includes(p) : this.stat(p).then(() => true, () => false); }
-    async read(p) { return (await api('GET', this.readOnly ? this.fileUrl(p) : 'api/file' + this.q(p))).text(); }
+    async read(p) {
+      if (this.isRemote(p)) {
+        try {
+          const { content, sha } = await (await changeNotesApi(this.dir, 'GET')).json();
+          this.remoteSha = sha;
+          return content;
+        } catch (err) {
+          // Saving isn't set up on Vercel (or the function is missing): fall back to read-only
+          if (err.status !== 503 && err.status !== 404) throw err;
+          this.remoteOff = true;
+          toast(err.status === 503 ? err.message : 'Saving change notes is not set up on this site');
+        }
+      }
+      return (await api('GET', this.readOnly ? this.fileUrl(p) : 'api/file' + this.q(p))).text();
+    }
     async stat(p) { return this.readOnly ? 0 : (await (await api('GET', 'api/stat' + this.q(p))).json()).mtime; }
     async write(p, content) {
+      if (this.isRemote(p)) {
+        const res = await changeNotesApi(this.dir, 'PUT', JSON.stringify({ content, sha: this.remoteSha }));
+        this.remoteSha = (await res.json()).sha;
+        return;
+      }
       if (this.readOnly) throw new Error('read-only on the live site');
       await api('PUT', 'api/file' + this.q(p), content);
       if (!this.files.includes(p)) { this.files.push(p); this.files.sort(byPath); }
@@ -465,12 +499,14 @@ Your rough notebook. Everything here is plain **markdown**.
     el.crumb.textContent = dir ? `${c.source.name} / ${dir.replaceAll('/', ' / ')} /` : `${c.source.name} /`;
     el.where.textContent = {
       folder: `On disk · ${c.source.name}/${c.path}`,
-      server: c.source.readOnly
-        ? 'Read-only here · edit on localhost, then push'
-        : `Synced with notes/${c.source.dir}/${c.path}`,
+      server: c.source.isRemote?.(c.path)
+        ? 'Saves to GitHub · run git pull to get it on your computer'
+        : c.source.readOnly
+          ? 'Read-only here · edit on localhost, then push'
+          : `Synced with notes/${c.source.dir}/${c.path}`,
     }[c.source.kind] ?? 'Saved in this browser';
     const locked = !!c.source.readOnly;
-    el.editor.readOnly = locked;
+    el.editor.readOnly = locked && !c.source.canEdit(c.path);
     el.title.disabled = locked;
     $('#delete').disabled = locked;
     document.title = `${stripExt(baseName(c.path))} · Kaccha Chittha`;
@@ -555,7 +591,8 @@ Your rough notebook. Everything here is plain **markdown**.
     state.dirty = true;
     setStatus('Editing…');
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(save, 700);
+    // Live-site saves are GitHub commits, so wait for a longer pause in typing
+    saveTimer = setTimeout(save, state.current?.source.readOnly ? 3000 : 700);
   }
 
   async function save() {
@@ -942,11 +979,15 @@ Your rough notebook. Everything here is plain **markdown**.
     return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
   }
 
+  // The password is kept for this tab only, so change-notes saves can prove it to the server.
   function unlock() {
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
       let remembered = null;
       try { remembered = sessionStorage.getItem(UNLOCK_KEY); } catch { /* storage blocked */ }
-      if (remembered === PASSWORD_HASH) return resolve();
+      if (remembered && (await sha256(remembered)) === PASSWORD_HASH) {
+        sitePassword = remembered;
+        return resolve();
+      }
 
       const form = $('#lockForm');
       const input = $('#lockInput');
@@ -962,7 +1003,8 @@ Your rough notebook. Everything here is plain **markdown**.
           form.classList.add('shake');
           return;
         }
-        try { sessionStorage.setItem(UNLOCK_KEY, PASSWORD_HASH); } catch { /* storage blocked */ }
+        sitePassword = input.value;
+        try { sessionStorage.setItem(UNLOCK_KEY, input.value); } catch { /* storage blocked */ }
         input.value = '';
         resolve();
       });
