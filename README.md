@@ -1,22 +1,26 @@
 # kaccha chittha
 
-A personal markdown notebook that runs in the browser. There's no build step and no backend.
+A personal markdown notebook that runs in the browser, backed by a tiny Node server with no dependencies.
 
 ## Run it
 
 ```sh
-python3 -m http.server 5173
+npm start        # or: node server.js
 ```
 
-Then open http://localhost:5173 in Chrome, Edge, Arc or Brave.
+Then open http://localhost:5173.
 
-## What it does
+## Where notes live
 
-- **My Notes** are saved in this browser (IndexedDB).
-- **Open folder** lets you pick any folder on disk. Its `.md` files show up as a tree, and your edits are saved straight back to those files. Open folders are remembered, so after a restart you click "Allow access to reopen" once.
-- **Import .md** (or drag files onto the window) copies files into My Notes.
-- Write / Split / Read views, autosave, rename by clicking the title, a download button, and dark mode.
-- Relative links (`[x](other.md)`) and images (`![](img/a.png)`) work inside opened folders.
-- If you edit a file in another editor, the app reloads it when you switch back.
+- **`notes/<folder>/`**: each folder inside `notes/` shows up as its own section in the sidebar. For example, `notes/html-notes` shows up as **HTML Notes**. Edits on the website are written straight to those `.md` files. Changes you make to the files in any other editor show up on the website live. To add a new collection, drop another folder into `notes/`.
+- **My Notes**: quick notes saved in this browser only (IndexedDB).
+- **Open folder** (Chrome, Edge, Arc, Brave): edit any other folder on your disk in place.
+- **Import .md** (or drag files onto the window): copies files into My Notes.
 
-Files: `index.html`, `style.css`, `app.js`.
+## Features
+
+Write / Split / Read views, autosave, ⌘S / ⌘E, rename by clicking the title, a filter box, a download button, and dark mode. Relative links (`[x](other.md)`, `[y](level-2/)`) and images (`![](../images/a.png)`) work.
+
+The server only listens on `127.0.0.1`, so it's reachable from this computer only.
+
+Files: `index.html`, `style.css`, `app.js`, `server.js`.

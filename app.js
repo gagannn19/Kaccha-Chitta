@@ -152,13 +152,55 @@ Your rough notebook. Everything here is plain **markdown**.
     }
   }
 
+  // Notes in the project's ./notes/<collection> folders, read and written through server.js
+  async function api(method, url, body) {
+    const res = await fetch(url, {
+      method,
+      body,
+      headers: method === 'POST' ? { 'Content-Type': 'application/json' } : undefined,
+      cache: 'no-store',
+    });
+    if (!res.ok) throw new Error((await res.text()) || res.statusText);
+    return res;
+  }
+
+  const ACRONYMS = new Set(['html', 'css', 'js', 'ts', 'api', 'sql', 'dsa', 'ui', 'ux', 'dom', 'http', 'git']);
+  const prettyName = (n) => n.split(/[-_\s]+/).filter(Boolean)
+    .map((w) => (ACRONYMS.has(w.toLowerCase()) ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1))).join(' ');
+
+  class ServerSource {
+    constructor(dir) { this.dir = dir; this.id = 'srv:' + dir; this.name = prettyName(dir); this.kind = 'server'; this.ready = true; this.files = []; }
+    q(p) { return '?p=' + encodeURIComponent(this.dir + '/' + p); }
+    paths() { return this.files; }
+    async refresh() { await syncServer(); }
+    async exists(p) { try { await this.stat(p); return true; } catch { return false; } }
+    async read(p) { return (await api('GET', '/api/file' + this.q(p))).text(); }
+    async stat(p) { return (await (await api('GET', '/api/stat' + this.q(p))).json()).mtime; }
+    async write(p, content) {
+      await api('PUT', '/api/file' + this.q(p), content);
+      if (!this.files.includes(p)) { this.files.push(p); this.files.sort(byPath); }
+    }
+    async remove(p) {
+      await api('DELETE', '/api/file' + this.q(p));
+      this.files = this.files.filter((f) => f !== p);
+    }
+    async rename(from, to) {
+      await api('POST', '/api/rename', JSON.stringify({ from: this.dir + '/' + from, to: this.dir + '/' + to }));
+      this.files = this.files.filter((f) => f !== from);
+      this.files.push(to); this.files.sort(byPath);
+    }
+    async asset(p) { return '/notes/' + (this.dir + '/' + p).split('/').map(encodeURIComponent).join('/'); }
+  }
+
   // ---------- State ----------
   const local = new LocalSource();
   const state = {
     sources: [local],
     current: null,          // { source, path }
     dirty: false,
+    saving: false,
     lastStamp: null,
+    hasServer: false,
     open: new Set(prefs.get('openDirs', [])),
     assetUrls: new Map(),
   };
@@ -321,8 +363,10 @@ Your rough notebook. Everything here is plain **markdown**.
       label.title = source.name;
       head.append(label);
       if (source.ready) head.append(headButton(ICON.plus, `New note in ${source.name}`, () => newNote(source)));
+      if (source.kind !== 'local' && source.ready) {
+        head.append(headButton(ICON.refresh, 'Reload folder', async () => { await source.refresh(); renderTree(); toast('Folder reloaded'); }));
+      }
       if (source.kind === 'folder') {
-        if (source.ready) head.append(headButton(ICON.refresh, 'Reload folder', async () => { await source.refresh(); renderTree(); toast('Folder reloaded'); }));
         head.append(headButton(ICON.close, 'Close folder (files stay on disk)', () => closeFolder(source)));
       }
       box.append(head);
@@ -370,7 +414,10 @@ Your rough notebook. Everything here is plain **markdown**.
     const dir = dirName(c.path);
     el.title.value = stripExt(baseName(c.path));
     el.crumb.textContent = dir ? `${c.source.name} / ${dir.replaceAll('/', ' / ')} /` : `${c.source.name} /`;
-    el.where.textContent = c.source.kind === 'folder' ? `On disk · ${c.source.name}/${c.path}` : 'Saved in this browser';
+    el.where.textContent = {
+      folder: `On disk · ${c.source.name}/${c.path}`,
+      server: `Synced with notes/${c.source.dir}/${c.path}`,
+    }[c.source.kind] ?? 'Saved in this browser';
     document.title = `${stripExt(baseName(c.path))} · Kaccha Chittha`;
   }
 
@@ -381,7 +428,7 @@ Your rough notebook. Everything here is plain **markdown**.
   }
 
   function clearAssets() {
-    for (const url of state.assetUrls.values()) if (url) URL.revokeObjectURL(url);
+    for (const url of state.assetUrls.values()) if (url?.startsWith('blob:')) URL.revokeObjectURL(url);
     state.assetUrls.clear();
   }
 
@@ -460,6 +507,7 @@ Your rough notebook. Everything here is plain **markdown**.
     const c = state.current;
     if (!c || !state.dirty) return true;
     state.dirty = false;
+    state.saving = true;
     setStatus('Saving…');
     try {
       await c.source.write(c.path, el.editor.value);
@@ -471,6 +519,8 @@ Your rough notebook. Everything here is plain **markdown**.
       setStatus('Not saved', true);
       toast(`Couldn't save: ${err.message}`);
       return false;
+    } finally {
+      state.saving = false;
     }
   }
 
@@ -528,7 +578,7 @@ Your rough notebook. Everything here is plain **markdown**.
   async function deleteCurrent() {
     const c = state.current;
     if (!c) return;
-    const onDisk = c.source.kind === 'folder';
+    const onDisk = c.source.kind !== 'local';
     const ok = await ask({
       title: `Delete “${stripExt(baseName(c.path))}”?`,
       text: onDisk ? 'This permanently deletes the file from your disk.' : 'This removes the note from this browser.',
@@ -685,7 +735,7 @@ Your rough notebook. Everything here is plain **markdown**.
     const c = state.current;
     if (!c) return;
     const target = resolveRel(c.path, decodeURIComponent(href.split(/[?#]/)[0]));
-    const candidates = [target, withExt(target)];
+    const candidates = [target, withExt(target), cleanPath(target + '/README.md')];
     const hit = candidates.find((p) => c.source.paths().includes(p));
     if (hit) openNote(c.source, hit);
     else toast(`No note at ${target}`);
@@ -733,27 +783,56 @@ Your rough notebook. Everything here is plain **markdown**.
     importFiles(e.dataTransfer.files);
   });
 
-  // Pick up edits made outside the app (e.g. in VS Code) when you come back
-  window.addEventListener('focus', async () => {
-    for (const s of state.sources) if (s.kind === 'folder' && s.ready) await s.refresh().catch(() => {});
-    renderTree();
+  // Pick up edits made outside the app (e.g. in VS Code)
+  async function checkExternalChange() {
     const c = state.current;
-    if (!c || state.dirty) return;
+    if (!c || state.dirty || state.saving) return;
     try {
       const stamp = await c.source.stat(c.path);
-      if (stamp !== state.lastStamp) {
-        const pos = el.editor.selectionStart;
-        el.editor.value = await c.source.read(c.path);
-        el.editor.setSelectionRange(pos, pos);
-        state.lastStamp = stamp;
-        updateCount();
-        renderPreview();
-        toast('Reloaded — the file changed outside the app');
-      }
+      if (stamp === state.lastStamp || state.current !== c || state.dirty || state.saving) return;
+      const text = await c.source.read(c.path);
+      state.lastStamp = stamp;
+      if (text === el.editor.value || state.dirty) return;
+      const pos = el.editor.selectionStart;
+      el.editor.value = text;
+      el.editor.setSelectionRange(pos, pos);
+      updateCount();
+      renderPreview();
+      toast('Updated — the file changed outside the app');
     } catch {
-      toast(`${baseName(c.path)} was moved or deleted outside the app`);
+      if (state.current === c) toast(`${baseName(c.path)} was moved or deleted outside the app`);
     }
+  }
+
+  window.addEventListener('focus', async () => {
+    for (const s of state.sources) if (s.kind === 'folder' && s.ready) await s.refresh().catch(() => {});
+    if (state.hasServer) await syncServer().catch(() => {});
+    renderTree();
+    checkExternalChange();
   });
+
+  // Keep the ./notes collections in sync with the server's list of folders
+  async function syncServer() {
+    const cols = await (await api('GET', '/api/collections')).json();
+    const existing = new Map(state.sources.filter((s) => s.kind === 'server').map((s) => [s.dir, s]));
+    const fresh = cols.sort((a, b) => byPath(a.name, b.name)).map(({ name, files }) => {
+      const s = existing.get(name) ?? new ServerSource(name);
+      s.files = files.sort(byPath);
+      return s;
+    });
+    const gone = [...existing.values()].filter((s) => !fresh.includes(s));
+    state.sources = [local, ...fresh, ...state.sources.filter((s) => s.kind === 'folder')];
+    if (gone.includes(state.current?.source)) closeNote();
+  }
+
+  function listenForServerChanges() {
+    const events = new EventSource('/api/events');
+    events.onmessage = async () => {
+      try { await syncServer(); } catch { return; }
+      renderTree();
+      if (state.current?.source.kind === 'server') checkExternalChange();
+    };
+  }
 
   window.addEventListener('beforeunload', (e) => {
     if (state.dirty) { save(); e.preventDefault(); }
@@ -770,6 +849,12 @@ Your rough notebook. Everything here is plain **markdown**.
 
     try { await local.load(); } catch (err) { toast(`Browser storage is unavailable: ${err.message}`); }
 
+    try {
+      await syncServer();
+      state.hasServer = true;
+      listenForServerChanges();
+    } catch { /* opened without server.js (e.g. static hosting) — browser-only mode */ }
+
     if (canOpenFolders) {
       const saved = (await kv.get('folders').catch(() => null)) || [];
       for (const { id, handle } of saved) {
@@ -782,7 +867,9 @@ Your rough notebook. Everything here is plain **markdown**.
 
     const last = prefs.get('last', null);
     const src = last && sourceById(last.source);
+    const firstCollection = state.sources.find((s) => s.kind === 'server' && s.paths().includes('README.md'));
     if (src?.ready && src.paths().includes(last.path)) openNote(src, last.path);
+    else if (!last && firstCollection) openNote(firstCollection, 'README.md');
     else if (local.paths().includes('Welcome.md') && local.paths().length === 1) openNote(local, 'Welcome.md');
   }
 

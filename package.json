@@ -1,0 +1,9 @@
+{
+  "name": "kaccha-chittha",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal markdown notebook",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
