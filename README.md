@@ -23,7 +23,7 @@ Write / Split / Read views, autosave, ⌘S / ⌘E, rename by clicking the title,
 
 ## Live site (Vercel)
 
-https://kaccha-chitta-one.vercel.app shows the `notes/` collections **read-only**. Static hosting can't run `server.js`, so it reads the list of notes from `notes/index.json`. The server keeps that file up to date, and `npm run build` regenerates it on deploy. To change notes, edit them on localhost, then commit and push.
+https://kaccha-chitta-one.vercel.app shows the `notes/` collections **read-only**. Static hosting can't run `server.js`, so it reads the list of notes from `notes/index.json`. The server keeps that file up to date, and `npm run manifest` rebuilds it by hand. To change notes, edit them on localhost, then commit and push.
 
 The server only listens on `127.0.0.1`, so it's reachable from this computer only.
 
