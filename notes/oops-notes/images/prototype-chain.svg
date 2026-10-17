@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="300" rx="18" fill="#0b1a33"/>
+  <text x="40" y="50" font-size="28" font-weight="bold" fill="#ffa31a">The Prototype Chain of an array</text>
+  <g font-size="18" text-anchor="middle">
+    <rect x="30" y="100" width="170" height="110" rx="12" fill="#123056" stroke="#2bd2ff" stroke-width="3"/>
+    <text x="115" y="135" fill="#fff" font-weight="bold">arr</text>
+    <text x="115" y="170" fill="#7CFC7C" font-family="Menlo, monospace">[1, 2, 3]</text>
+    <rect x="250" y="100" width="200" height="110" rx="12" fill="#123056" stroke="#2bd2ff" stroke-width="3"/>
+    <text x="350" y="135" fill="#fff" font-weight="bold">Array.prototype</text>
+    <text x="350" y="168" fill="#7CFC7C" font-family="Menlo, monospace">push, map,</text>
+    <text x="350" y="192" fill="#7CFC7C" font-family="Menlo, monospace">filter ...</text>
+    <rect x="500" y="100" width="210" height="110" rx="12" fill="#123056" stroke="#2bd2ff" stroke-width="3"/>
+    <text x="605" y="135" fill="#fff" font-weight="bold">Object.prototype</text>
+    <text x="605" y="168" fill="#7CFC7C" font-family="Menlo, monospace">toString,</text>
+    <text x="605" y="192" fill="#7CFC7C" font-family="Menlo, monospace">hasOwnProperty</text>
+    <rect x="760" y="120" width="110" height="70" rx="12" fill="#5b1a1a" stroke="#ff6b6b" stroke-width="3"/>
+    <text x="815" y="162" fill="#fff" font-weight="bold">null</text>
+  </g>
+  <g stroke="#ffa31a" stroke-width="4">
+    <line x1="200" y1="155" x2="242" y2="155"/><line x1="450" y1="155" x2="492" y2="155"/><line x1="710" y1="155" x2="752" y2="155"/>
+  </g>
+  <g fill="#ffa31a"><polygon points="248,155 236,147 236,163"/><polygon points="498,155 486,147 486,163"/><polygon points="758,155 746,147 746,163"/></g>
+  <text x="450" y="260" font-size="18" fill="#cfe3ff" text-anchor="middle">each arrow = [[Prototype]] link  ·  lookup walks left → right until found or null</text>
+</svg>

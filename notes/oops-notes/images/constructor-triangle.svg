@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="460" viewBox="0 0 900 460" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="460" rx="18" fill="#0b1a33"/>
+  <text x="40" y="50" font-size="28" font-weight="bold" fill="#ffa31a">Function ↔ prototype ↔ instance</text>
+  <g font-size="19" text-anchor="middle">
+    <rect x="60" y="100" width="260" height="90" rx="12" fill="#123056" stroke="#2bd2ff" stroke-width="3"/>
+    <text x="190" y="140" fill="#fff" font-weight="bold">Person</text>
+    <text x="190" y="168" fill="#cfe3ff" font-size="16">(constructor function)</text>
+    <rect x="580" y="100" width="260" height="90" rx="12" fill="#123056" stroke="#ffa31a" stroke-width="3"/>
+    <text x="710" y="140" fill="#fff" font-weight="bold">Person.prototype</text>
+    <text x="710" y="168" fill="#7CFC7C" font-size="16" font-family="Menlo, monospace">greet() { ... }</text>
+    <rect x="320" y="330" width="260" height="90" rx="12" fill="#123056" stroke="#7CFC7C" stroke-width="3"/>
+    <text x="450" y="370" fill="#fff" font-weight="bold">p1</text>
+    <text x="450" y="398" fill="#7CFC7C" font-size="16" font-family="Menlo, monospace">name: "Gagan"</text>
+  </g>
+  <g stroke-width="3" fill="none">
+    <path d="M320 130 H572" stroke="#ffa31a"/>
+    <path d="M580 165 H328" stroke="#2bd2ff"/>
+    <path d="M190 190 L380 324" stroke="#cfe3ff" stroke-dasharray="8 6"/>
+    <path d="M520 330 L690 196" stroke="#7CFC7C"/>
+  </g>
+  <g>
+    <polygon points="578,130 566,122 566,138" fill="#ffa31a"/>
+    <polygon points="322,165 334,157 334,173" fill="#2bd2ff"/>
+    <polygon points="384,328 368,322 376,310" fill="#cfe3ff"/>
+    <polygon points="694,192 678,196 688,208" fill="#7CFC7C"/>
+  </g>
+  <g font-size="16" font-family="Menlo, monospace">
+    <text x="450" y="120" fill="#ffa31a" text-anchor="middle">.prototype</text>
+    <text x="450" y="188" fill="#2bd2ff" text-anchor="middle">.constructor</text>
+    <text x="70" y="300" fill="#cfe3ff">new Person("Gagan")</text>
+    <text x="620" y="280" fill="#7CFC7C">__proto__ / [[Prototype]]</text>
+  </g>
+</svg>

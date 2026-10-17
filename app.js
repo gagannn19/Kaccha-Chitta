@@ -164,9 +164,12 @@ Your rough notebook. Everything here is plain **markdown**.
     return res;
   }
 
-  const ACRONYMS = new Set(['html', 'css', 'js', 'ts', 'api', 'sql', 'dsa', 'ui', 'ux', 'dom', 'http', 'git']);
-  const prettyName = (n) => n.split(/[-_\s]+/).filter(Boolean)
-    .map((w) => (ACRONYMS.has(w.toLowerCase()) ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1))).join(' ');
+  const ACRONYMS = new Set(['html', 'css', 'js', 'ts', 'api', 'sql', 'dsa', 'os', 'ui', 'ux', 'dom', 'http', 'git']);
+  const SPECIAL = { oops: 'OOPs', javascript: 'JavaScript', dbms: 'DBMS' };
+  const prettyName = (n) => n.split(/[-_\s]+/).filter(Boolean).map((w) => {
+    const lw = w.toLowerCase();
+    return SPECIAL[lw] ?? (ACRONYMS.has(lw) ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1));
+  }).join(' ');
 
   // With server.js running the notes are editable; on static hosting (Vercel) they are
   // read from notes/index.json + the plain files, read-only.
@@ -324,6 +327,23 @@ Your rough notebook. Everything here is plain **markdown**.
     return b;
   }
 
+  // Collections in notes/ start collapsed (dropdowns); My Notes and opened folders start open.
+  const sections = prefs.get('sections', {});
+  const isSectionOpen = (source) => sections[source.id] ?? source.kind !== 'server';
+
+  // Each collection's README and change-notes.md stay at the top of its list.
+  const PINNED = ['readme.md', 'change-notes.md'];
+  const pinRank = (p) => { const i = PINNED.indexOf(p.toLowerCase()); return i < 0 ? PINNED.length : i; };
+  const fileLabel = (p) => (p.toLowerCase() === 'change-notes.md' ? 'Change notes' : stripExt(baseName(p)));
+
+  function reveal(source, path) {
+    sections[source.id] = true;
+    prefs.set('sections', sections);
+    const parts = path.split('/').slice(0, -1);
+    parts.forEach((_, i) => state.open.add(source.id + ':' + parts.slice(0, i + 1).join('/')));
+    prefs.set('openDirs', [...state.open]);
+  }
+
   function renderNode(source, node, prefix, depth, filtering, into) {
     const dirs = [...node.dirs.keys()].sort(byPath);
     for (const name of dirs) {
@@ -339,9 +359,11 @@ Your rough notebook. Everything here is plain **markdown**.
       into.append(row);
       if (isOpen) renderNode(source, node.dirs.get(name), dirPath + '/', depth + 1, filtering, into);
     }
-    for (const p of node.files) {
+    const files = depth === 0 ? [...node.files].sort((a, b) => pinRank(a) - pinRank(b)) : node.files;
+    for (const p of files) {
       const active = state.current?.source === source && state.current.path === p;
-      const row = makeRow('file' + (active ? ' active' : ''), ICON.file, stripExt(baseName(p)), depth);
+      const pinned = depth === 0 && pinRank(p) < PINNED.length;
+      const row = makeRow('file' + (active ? ' active' : '') + (pinned ? ' pinned' : ''), ICON.file, fileLabel(p), depth);
       row.title = p;
       row.addEventListener('click', () => { openNote(source, p); el.app.classList.remove('nav-open'); });
       into.append(row);
@@ -362,14 +384,31 @@ Your rough notebook. Everything here is plain **markdown**.
     const q = el.search.value.trim().toLowerCase();
     const frag = document.createDocumentFragment();
     for (const source of state.sources) {
+      const paths = source.ready ? source.paths().filter((p) => !q || p.toLowerCase().includes(q)) : [];
+      if (q && !paths.length) continue;
+      const isOpen = !!q || isSectionOpen(source);
+
       const box = document.createElement('div');
-      box.className = 'source';
+      box.className = 'source' + (isOpen ? ' open' : '');
       const head = document.createElement('div');
       head.className = 'source-head';
-      const label = document.createElement('span');
+      const label = document.createElement('button');
       label.className = 'label';
-      label.textContent = source.name;
       label.title = source.name;
+      label.setAttribute('aria-expanded', String(isOpen));
+      label.innerHTML = ICON.chev;
+      const text = document.createElement('span');
+      text.className = 'text';
+      text.textContent = source.name;
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.textContent = source.ready ? String(paths.length) : '';
+      label.append(text, badge);
+      label.addEventListener('click', () => {
+        sections[source.id] = !isSectionOpen(source);
+        prefs.set('sections', sections);
+        renderTree();
+      });
       head.append(label);
       if (source.ready && !source.readOnly) head.append(headButton(ICON.plus, `New note in ${source.name}`, () => newNote(source)));
       if (source.kind !== 'local' && source.ready && !source.readOnly) {
@@ -380,14 +419,15 @@ Your rough notebook. Everything here is plain **markdown**.
       }
       box.append(head);
 
-      if (!source.ready) {
+      if (!isOpen) {
+        // collapsed: header only
+      } else if (!source.ready) {
         const b = document.createElement('button');
         b.className = 'btn reconnect';
         b.textContent = 'Allow access to reopen';
         b.addEventListener('click', () => reconnect(source));
         box.append(b);
       } else {
-        const paths = source.paths().filter((p) => !q || p.toLowerCase().includes(q));
         if (!paths.length) {
           const e = document.createElement('div');
           e.className = 'empty-src';
@@ -489,6 +529,7 @@ Your rough notebook. Everything here is plain **markdown**.
       updateCount();
       renderPreview();
       setStatus('');
+      reveal(source, path);
       renderTree();
       prefs.set('last', { source: source.id, path });
     } catch (err) {
@@ -786,7 +827,7 @@ Your rough notebook. Everything here is plain **markdown**.
 
   // Drag & drop .md files to import
   let dragDepth = 0;
-  const hasFiles = (e) => [...(e.dataTransfer?.types || [])].includes('Files');
+  const hasFiles = (e) => !document.body.classList.contains('locked') && [...(e.dataTransfer?.types || [])].includes('Files');
   window.addEventListener('dragenter', (e) => { if (hasFiles(e)) { dragDepth++; el.dropzone.classList.add('show'); } });
   window.addEventListener('dragleave', (e) => { if (hasFiles(e) && --dragDepth <= 0) { dragDepth = 0; el.dropzone.classList.remove('show'); } });
   window.addEventListener('dragover', (e) => { if (hasFiles(e)) e.preventDefault(); });
@@ -891,5 +932,45 @@ Your rough notebook. Everything here is plain **markdown**.
     else if (local.paths().includes('Welcome.md') && local.paths().length === 1) openNote(local, 'Welcome.md');
   }
 
-  boot();
+  // ---------- Password screen ----------
+  // Only the SHA-256 hash of the password is stored here, never the password itself.
+  const PASSWORD_HASH = 'b03ddf3ca2e714a6548e7495e2a03f5e824eaac9837cd7f159c67b90fb4b7342';
+  const UNLOCK_KEY = 'kc:unlocked';
+
+  async function sha256(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function unlock() {
+    return new Promise((resolve) => {
+      let remembered = null;
+      try { remembered = sessionStorage.getItem(UNLOCK_KEY); } catch { /* storage blocked */ }
+      if (remembered === PASSWORD_HASH) return resolve();
+
+      const form = $('#lockForm');
+      const input = $('#lockInput');
+      const error = $('#lockError');
+      input.focus();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if ((await sha256(input.value)) !== PASSWORD_HASH) {
+          error.textContent = 'Wrong password';
+          input.select();
+          form.classList.remove('shake');
+          void form.offsetWidth;
+          form.classList.add('shake');
+          return;
+        }
+        try { sessionStorage.setItem(UNLOCK_KEY, PASSWORD_HASH); } catch { /* storage blocked */ }
+        input.value = '';
+        resolve();
+      });
+    });
+  }
+
+  unlock().then(() => {
+    document.body.classList.remove('locked');
+    boot();
+  });
 })();

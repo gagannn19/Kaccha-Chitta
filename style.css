@@ -70,9 +70,16 @@ svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width:
 .icon-btn svg { width: 18px; height: 18px; }
 
 .tree { flex: 1; overflow-y: auto; padding: 8px 6px 24px; }
-.source { margin-bottom: 10px; }
-.source-head { display: flex; align-items: center; gap: 4px; padding: 6px 6px 4px 10px; color: var(--muted); font-size: 11px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
-.source-head .label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source { margin-bottom: 2px; }
+.source-head { display: flex; align-items: center; gap: 2px; padding-right: 4px; border-radius: 6px; }
+.source-head:hover { background: var(--active); }
+.source-head .label { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 7px 8px; border: 0; background: transparent; text-align: left; cursor: pointer; font-weight: 650; font-size: 13.5px; color: var(--text); }
+.source-head .label .text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source-head .label .chev { width: 14px; height: 14px; color: var(--muted); transition: transform .15s; }
+.source.open > .source-head .chev { transform: rotate(90deg); }
+.source-head .label .badge { margin-left: auto; font-size: 11px; font-weight: 500; color: var(--muted); }
+.source.open { margin-bottom: 8px; }
+.row.pinned .name { font-style: italic; }
 .source-head .icon-btn { width: 24px; height: 24px; opacity: 0; }
 .source-head .icon-btn svg { width: 14px; height: 14px; }
 .source:hover .source-head .icon-btn, .source-head .icon-btn:focus-visible { opacity: 1; }
@@ -148,6 +155,20 @@ kbd { font: 11px var(--mono); padding: 1px 5px; border: 1px solid var(--line); b
 .md th { background: var(--panel); }
 .md li > input[type="checkbox"] { margin: 0 .4em 0 0; accent-color: var(--accent); }
 .md ul:has(> li > input[type="checkbox"]) { list-style: none; padding-left: 1.2em; }
+
+/* ---------- Password screen ---------- */
+.lock { display: none; position: fixed; inset: 0; z-index: 100; place-items: center; padding: 16px; background: var(--bg); }
+body.locked .lock { display: grid; }
+body.locked .app, body.locked .toast, body.locked .dropzone { display: none; }
+.lock-card { width: min(340px, 100%); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+.lock-card h1 { margin: 6px 0 0; font-family: var(--serif); font-size: 26px; font-weight: 600; }
+.lock-card p { margin: 0; color: var(--muted); }
+.lock-card input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); outline: none; font-size: 15px; }
+.lock-card input:focus { border-color: var(--accent); }
+.lock-card .btn { width: 100%; padding: 10px; font-size: 14px; }
+.lock-card .lock-error { color: var(--danger); min-height: 1.5em; font-size: 13px; }
+.lock-card.shake { animation: shake .3s; }
+@keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
 /* ---------- Dialog, toast, drop ---------- */
 dialog { border: 1px solid var(--line); border-radius: 12px; padding: 20px; width: min(400px, calc(100vw - 32px)); background: var(--surface); color: var(--text); box-shadow: var(--shadow); }

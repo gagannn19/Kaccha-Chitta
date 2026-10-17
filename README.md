@@ -17,6 +17,12 @@ Then open http://localhost:5173.
 - **Open folder** (Chrome, Edge, Arc, Brave): edit any other folder on your disk in place.
 - **Import .md** (or drag files onto the window): copies files into My Notes.
 
+Collections: HTML, CSS, JavaScript, React, DSA, OOPs, SQL and OS notes. Each one is a collapsible menu in the sidebar, and each has a `change-notes.md` pinned at the top for listing what to fix later.
+
+## Password
+
+The site asks for one shared password each time it's opened in a new tab. Only its SHA-256 hash is in the code. This is a simple lock screen, not real security: the repo is public, so anyone can read the notes on GitHub or open their file URLs directly. To keep them truly private, make the repo private.
+
 ## Features
 
 Write / Split / Read views, autosave, ⌘S / ⌘E, rename by clicking the title, a filter box, a download button, and dark mode. Relative links (`[x](other.md)`, `[y](level-2/)`) and images (`![](../images/a.png)`) work.

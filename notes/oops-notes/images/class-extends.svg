@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="420" rx="18" fill="#0b1a33"/>
+  <text x="40" y="50" font-size="28" font-weight="bold" fill="#ffa31a">class Dog extends Animal → TWO chains</text>
+  <g font-size="18" text-anchor="middle">
+    <text x="230" y="95" fill="#2bd2ff" font-weight="bold">Instance chain (methods)</text>
+    <text x="670" y="95" fill="#ffa31a" font-weight="bold">Static chain (static methods)</text>
+    <rect x="110" y="115" width="240" height="56" rx="12" fill="#123056" stroke="#7CFC7C" stroke-width="3"/><text x="230" y="150" fill="#fff">dog</text>
+    <rect x="110" y="215" width="240" height="56" rx="12" fill="#123056" stroke="#2bd2ff" stroke-width="3"/><text x="230" y="250" fill="#fff">Dog.prototype</text>
+    <rect x="110" y="315" width="240" height="56" rx="12" fill="#123056" stroke="#2bd2ff" stroke-width="3"/><text x="230" y="350" fill="#fff">Animal.prototype</text>
+    <rect x="550" y="165" width="240" height="56" rx="12" fill="#123056" stroke="#ffa31a" stroke-width="3"/><text x="670" y="200" fill="#fff">Dog</text>
+    <rect x="550" y="285" width="240" height="56" rx="12" fill="#123056" stroke="#ffa31a" stroke-width="3"/><text x="670" y="320" fill="#fff">Animal</text>
+  </g>
+  <g stroke-width="4">
+    <line x1="230" y1="171" x2="230" y2="207" stroke="#2bd2ff"/><line x1="230" y1="271" x2="230" y2="307" stroke="#2bd2ff"/>
+    <line x1="670" y1="221" x2="670" y2="277" stroke="#ffa31a"/>
+  </g>
+  <g><polygon points="230,213 222,201 238,201" fill="#2bd2ff"/><polygon points="230,313 222,301 238,301" fill="#2bd2ff"/><polygon points="670,283 662,271 678,271" fill="#ffa31a"/></g>
+  <text x="450" y="400" font-size="16" fill="#cfe3ff" text-anchor="middle">Dog.prototype.__proto__ === Animal.prototype   ·   Dog.__proto__ === Animal</text>
+</svg>

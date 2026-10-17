@@ -8,7 +8,18 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='3' width='22' height='26' rx='4' fill='%23c2410c'/%3E%3Cpath d='M10 11h12M10 16h12M10 21h7' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="locked">
+  <div class="lock" id="lock">
+    <form class="lock-card" id="lockForm" autocomplete="off">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <h1>kaccha chittha</h1>
+      <p>Enter the password to open your notes.</p>
+      <input id="lockInput" type="password" placeholder="Password" aria-label="Password" autofocus>
+      <button class="btn primary" type="submit">Open</button>
+      <p class="lock-error" id="lockError" role="alert"></p>
+    </form>
+  </div>
+
   <div class="app" id="app">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
