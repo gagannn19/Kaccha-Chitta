@@ -7,4 +7,4 @@
 - **Q5 :** Reverse a string using a loop
 
 ---
-[← Strings](../level-01-javascript-basics/13-strings.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Functions →](../level-02-functions-arrays-objects/01-functions.md)
+[← Strings](../level-01-javascript-basics/14-strings.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Functions →](../level-02-functions-arrays-objects/01-functions.md)

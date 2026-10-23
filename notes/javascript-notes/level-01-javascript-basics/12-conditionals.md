@@ -30,4 +30,4 @@ switch (day) {
 ```
 
 ---
-[← Truthy & Falsy](../level-01-javascript-basics/10-truthy-falsy.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Loops →](../level-01-javascript-basics/12-loops.md)
+[← Type Conversion](../level-01-javascript-basics/11-type-conversion.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Loops →](../level-01-javascript-basics/13-loops.md)

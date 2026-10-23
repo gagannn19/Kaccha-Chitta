@@ -1,15 +1,6 @@
 # What is JavaScript?
 
-*The language that makes web pages do things*
-
-```mermaid
-flowchart LR
-  N0["HTML (structure)"]
-  N1["CSS (style)"]
-  N2["JS (logic)"]
-  N0 --> N1
-  N1 --> N2
-```
+*JavaScript is a programming language that makes websites interactive.*
 
 - A **programming language** that runs in the browser (and on servers with Node.js)
 - Used for clicks, forms, animations, fetching data, games, full apps

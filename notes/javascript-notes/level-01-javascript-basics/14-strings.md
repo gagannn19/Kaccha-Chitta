@@ -18,4 +18,4 @@ name.replace("G", "R"); // "Ragan"
 > **Note :** Strings are immutable - methods return a NEW string, the original never changes.
 
 ---
-[← Loops](../level-01-javascript-basics/12-loops.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Practice Set 1 →](../level-01-javascript-basics/14-practice-set-1.md)
+[← Loops](../level-01-javascript-basics/13-loops.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Practice Set 1 →](../level-01-javascript-basics/15-practice-set-1.md)

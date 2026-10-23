@@ -36,4 +36,4 @@ for (const key in user) {
 - **for...of** - values of arrays / strings.  **for...in** - keys of objects
 
 ---
-[← Conditionals](../level-01-javascript-basics/11-conditionals.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Strings →](../level-01-javascript-basics/13-strings.md)
+[← Conditionals](../level-01-javascript-basics/12-conditionals.md) | [Level 1 index](README.md) | [All levels](../README.md) | [Strings →](../level-01-javascript-basics/14-strings.md)

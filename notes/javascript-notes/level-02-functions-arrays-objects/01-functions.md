@@ -19,4 +19,4 @@ const greet = () => {
 - No return? The function gives **undefined**
 
 ---
-[← Practice Set 1](../level-01-javascript-basics/14-practice-set-1.md) | [Level 2 index](README.md) | [All levels](../README.md) | [Arrow Functions →](../level-02-functions-arrays-objects/02-arrow-functions.md)
+[← Practice Set 1](../level-01-javascript-basics/15-practice-set-1.md) | [Level 2 index](README.md) | [All levels](../README.md) | [Arrow Functions →](../level-02-functions-arrays-objects/02-arrow-functions.md)

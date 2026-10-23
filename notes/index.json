@@ -239,15 +239,16 @@
       "level-01-javascript-basics/03-console-comments.md",
       "level-01-javascript-basics/04-variables.md",
       "level-01-javascript-basics/05-data-types.md",
-      "level-01-javascript-basics/06-typeof.md",
-      "level-01-javascript-basics/07-operators.md",
-      "level-01-javascript-basics/08-vs.md",
-      "level-01-javascript-basics/09-type-conversion.md",
-      "level-01-javascript-basics/10-truthy-falsy.md",
-      "level-01-javascript-basics/11-conditionals.md",
-      "level-01-javascript-basics/12-loops.md",
-      "level-01-javascript-basics/13-strings.md",
-      "level-01-javascript-basics/14-practice-set-1.md",
+      "level-01-javascript-basics/06-symbol-bigint.md",
+      "level-01-javascript-basics/07-typeof.md",
+      "level-01-javascript-basics/08-truthy-falsy.md",
+      "level-01-javascript-basics/09-operators.md",
+      "level-01-javascript-basics/10-vs.md",
+      "level-01-javascript-basics/11-type-conversion.md",
+      "level-01-javascript-basics/12-conditionals.md",
+      "level-01-javascript-basics/13-loops.md",
+      "level-01-javascript-basics/14-strings.md",
+      "level-01-javascript-basics/15-practice-set-1.md",
       "level-01-javascript-basics/README.md",
       "level-02-functions-arrays-objects/01-functions.md",
       "level-02-functions-arrays-objects/02-arrow-functions.md",
@@ -569,6 +570,12 @@
       "level-11-under-the-hood-advanced/README.md",
       "level-12-top-58-react-interview-questions/README.md",
       "level-12-top-58-react-interview-questions/questions.md"
+    ]
+  },
+  {
+    "name": "react-notes2",
+    "files": [
+      "1.md"
     ]
   },
   {
