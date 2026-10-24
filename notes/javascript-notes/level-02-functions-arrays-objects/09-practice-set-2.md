@@ -7,4 +7,4 @@
 - **Q5 :** Copy an object, change the copy, and prove the original didn't change
 
 ---
-[← Shallow vs Deep Copy](../level-02-functions-arrays-objects/10-shallow-vs-deep-copy.md) | [Level 2 index](README.md) | [All levels](../README.md) | [Execution Context →](../level-03-how-javascript-works/01-execution-context.md)
+[← Shallow vs Deep Copy](../level-02-functions-arrays-objects/08-shallow-vs-deep-copy.md) | [Level 2 index](README.md) | [All levels](../README.md) | [Execution Context →](../level-03-how-javascript-works/01-execution-context.md)

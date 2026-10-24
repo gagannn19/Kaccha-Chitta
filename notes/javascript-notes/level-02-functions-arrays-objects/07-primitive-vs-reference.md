@@ -28,4 +28,4 @@ let obj2 = obj1;  obj2.n = 99;  // obj1.n is 99 too! (copy of the ADDRESS)
 > **Why :** Both obj1 & obj2 hold the same address, so they point to the SAME object.
 
 ---
-[← Spread & Rest](../level-02-functions-arrays-objects/08-spread-rest.md) | [Level 2 index](README.md) | [All levels](../README.md) | [Shallow vs Deep Copy →](../level-02-functions-arrays-objects/10-shallow-vs-deep-copy.md)
+[← Spread & Rest](../level-02-functions-arrays-objects/06-spread-rest.md) | [Level 2 index](README.md) | [All levels](../README.md) | [Shallow vs Deep Copy →](../level-02-functions-arrays-objects/08-shallow-vs-deep-copy.md)
