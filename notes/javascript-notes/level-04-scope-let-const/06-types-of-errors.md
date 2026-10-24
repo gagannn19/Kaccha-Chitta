@@ -6,4 +6,4 @@
 - **RangeError** - value out of range. e.g. `new Array(-1)`, infinite recursion
 
 ---
-[← let vs const vs var](../level-04-scope-let-const/06-let-vs-const-vs-var.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Shadowing →](../level-04-scope-let-const/08-shadowing.md)
+[← let vs const vs var](../level-04-scope-let-const/05-let-vs-const-vs-var.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Shadowing →](../level-04-scope-let-const/07-shadowing.md)

@@ -42,10 +42,11 @@ Each level builds on the one before it. Click a level, then a slide. Every slide
 - [Phase 2 : Code Execution](level-03-how-javascript-works/03-phase-2-code-execution.md)
 - [Call Stack](level-03-how-javascript-works/04-call-stack.md)
 - [Hoisting](level-03-how-javascript-works/05-hoisting.md)
-- [Hoisting : 3 Cases](level-03-how-javascript-works/06-hoisting-3-cases.md)
-- [undefined vs not defined](level-03-how-javascript-works/07-undefined-vs-not-defined.md)
-- [window & this](level-03-how-javascript-works/08-window-this.md)
-- [Practice Set 3](level-03-how-javascript-works/09-practice-set-3.md)
+- [Temporal Dead Zone](level-03-how-javascript-works/06-temporal-dead-zone.md)
+- [Hoisting : 3 Cases](level-03-how-javascript-works/07-hoisting-3-cases.md)
+- [undefined vs not defined](level-03-how-javascript-works/08-undefined-vs-not-defined.md)
+- [window & this](level-03-how-javascript-works/09-window-this.md)
+- [Practice Set 3](level-03-how-javascript-works/10-practice-set-3.md)
 
 ## [Level 4 : Scope, let & const](level-04-scope-let-const/README.md)
 *Where a variable can be used, and why var is risky*
@@ -54,11 +55,10 @@ Each level builds on the one before it. Click a level, then a slide. Every slide
 - [Scope Chain](level-04-scope-let-const/02-scope-chain.md)
 - [Block Scope](level-04-scope-let-const/03-block-scope.md)
 - [let & const Hoisting](level-04-scope-let-const/04-let-const-hoisting.md)
-- [Temporal Dead Zone](level-04-scope-let-const/05-temporal-dead-zone.md)
-- [let vs const vs var](level-04-scope-let-const/06-let-vs-const-vs-var.md)
-- [Types of Errors](level-04-scope-let-const/07-types-of-errors.md)
-- [Shadowing](level-04-scope-let-const/08-shadowing.md)
-- [Practice Set 4](level-04-scope-let-const/09-practice-set-4.md)
+- [let vs const vs var](level-04-scope-let-const/05-let-vs-const-vs-var.md)
+- [Types of Errors](level-04-scope-let-const/06-types-of-errors.md)
+- [Shadowing](level-04-scope-let-const/07-shadowing.md)
+- [Practice Set 4](level-04-scope-let-const/08-practice-set-4.md)
 
 ## [Level 5 : Functions Deep Dive](level-05-functions-deep-dive/README.md)
 *First-class functions, closures & the this keyword*

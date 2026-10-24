@@ -12,7 +12,10 @@ var square2 = square(n);
 var square4 = square(4);
 ```
 
-**Phase 1 : Memory Creation**
+1. **Memory Creation** - JS reserves memory for everything
+2. **Code Execution** - JS runs the code line by line (next page)
+
+## Phase 1 : Memory Creation
 
 | Memory | Value |
 |---|---|
@@ -24,7 +27,8 @@ var square4 = square(4);
 *Code :* nothing runs yet
 
 - JS scans the code first and reserves memory
-- Variables get the placeholder **undefined**, functions get their **full code**
+- **var** variables get the placeholder **undefined**, functions get their **full code**
+- **let / const** are registered too, but left **uninitialized** (see [Temporal Dead Zone](../level-03-how-javascript-works/06-temporal-dead-zone.md))
 
 ---
 [← Execution Context](../level-03-how-javascript-works/01-execution-context.md) | [Level 3 index](README.md) | [All levels](../README.md) | [Phase 2 : Code Execution →](../level-03-how-javascript-works/03-phase-2-code-execution.md)

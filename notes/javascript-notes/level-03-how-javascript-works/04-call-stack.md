@@ -2,23 +2,26 @@
 
 *JS keeps track of ECs using a stack (last in, first out)*
 
-```
-CALL STACK (top first)
-Step 1 : Program starts
-   GEC
-Step 2 : square(n) called
-   square(n) | GEC
-Step 3 : return 4
-   GEC
-Step 4 : square(4) called
-   square(4) | GEC
-Step 5 : return 16
-   GEC
-Step 6 : Program ends
-   (empty)
+For the code from the last page :
+
+```js
+var square2 = square(n);   // n = 2
+var square4 = square(4);
 ```
 
-- New EC → **pushed** on top.  Finished EC → **popped** off
+```text
+1. start      2. square(n)  3. return 4   4. square(4)  5. return 16  6. end
+
+              ┌───────────┐               ┌───────────┐
+              │ square(n) │               │ square(4) │
+┌───────────┐ ├───────────┤ ┌───────────┐ ├───────────┤ ┌───────────┐
+│    GEC    │ │    GEC    │ │    GEC    │ │    GEC    │ │    GEC    │   (empty)
+└───────────┘ └───────────┘ └───────────┘ └───────────┘ └───────────┘
+  GEC pushed       push          pop           push          pop        GEC popped
+```
+
+- New EC → **pushed** on top
+- Finished EC → **popped** off
 - Other names : Execution Context Stack, Program Stack, Runtime Stack
 
 > **Example :** Like a stack of plates : you always take the top plate first.

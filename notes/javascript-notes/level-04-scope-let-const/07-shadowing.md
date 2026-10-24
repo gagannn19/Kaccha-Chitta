@@ -26,4 +26,4 @@ console.log(b);    // 100
 - Legal : var shadowed by let,  let shadowed by let
 
 ---
-[← Types of Errors](../level-04-scope-let-const/07-types-of-errors.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Practice Set 4 →](../level-04-scope-let-const/09-practice-set-4.md)
+[← Types of Errors](../level-04-scope-let-const/06-types-of-errors.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Practice Set 4 →](../level-04-scope-let-const/08-practice-set-4.md)
