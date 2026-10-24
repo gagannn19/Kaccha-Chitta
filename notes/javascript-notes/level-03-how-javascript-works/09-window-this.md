@@ -43,9 +43,16 @@ console.log(this === window); // true
 
 - At the top level (not inside any function), **this** points to **window**
 
-> **Note :** The global object has different names :  Browser = **window**,  Node.js = **global**,  works everywhere = **globalThis**
+> ## Global Object
 
-> **Coming up :** **this** inside functions & objects is explained in Level 5.
+The global object has different names in different environments:
+
+- **Browser:** `window`
+
+- **Node.js:** `global`
+
+- **Everywhere:** `globalThis`
+
 
 ---
 [← undefined vs not defined](../level-03-how-javascript-works/08-undefined-vs-not-defined.md) | [Level 3 index](README.md) | [All levels](../README.md) | [Practice Set 3 →](../level-03-how-javascript-works/10-practice-set-3.md)

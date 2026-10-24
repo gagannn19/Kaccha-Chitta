@@ -12,6 +12,8 @@ console.log(a);   // 10
 console.log(b);   // ReferenceError: b is not defined
 ```
 
+## Where they live in memory
+
 **Global**
 
 | Memory | Value |
@@ -29,7 +31,31 @@ console.log(b);   // ReferenceError: b is not defined
 
 *Code :* deleted after the block
 
-- **let / const** = block scoped.  **var** = function scoped (ignores blocks)
+- **let / const** = **block** scoped
+- **var** = **function** scoped (ignores blocks)
+
+## var is function scoped
+
+*A var declared inside a function stays inside that function*
+
+```js
+function outer() {
+  function inner() {
+    var x = 10;
+  }
+  console.log(x); // ReferenceError
+}
+outer();
+```
+
+- `x` belongs to `inner()`, so `outer()` can't see it
+
+| | Respects { } blocks? | Respects functions? |
+|---|---|---|
+| **var** | no | yes |
+| **let / const** | yes | yes |
+
+> **Remember :** All three respect function boundaries. Only let & const also respect blocks.
 
 ---
 [← Scope Chain](../level-04-scope-let-const/02-scope-chain.md) | [Level 4 index](README.md) | [All levels](../README.md) | [let & const Hoisting →](../level-04-scope-let-const/04-let-const-hoisting.md)
