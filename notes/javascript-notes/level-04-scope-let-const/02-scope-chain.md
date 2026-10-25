@@ -35,4 +35,4 @@ flowchart LR
 > **Example :** Lost pen? Check your bag → your friend's bag → teacher's desk → give up.
 
 ---
-[← Scope](../level-04-scope-let-const/01-scope.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Block Scope →](../level-04-scope-let-const/03-block-scope.md)
+[← Scope](../level-04-scope-let-const/01-scope.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Where Variables Live →](../level-04-scope-let-const/03-where-variables-live.md)

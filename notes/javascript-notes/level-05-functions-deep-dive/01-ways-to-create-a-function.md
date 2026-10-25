@@ -12,4 +12,4 @@ const d = () => {};             // arrow function
 - **Anonymous** function = no name. Allowed only where a function is used as a value
 
 ---
-[← Practice Set 4](../level-04-scope-let-const/08-practice-set-4.md) | [Level 5 index](README.md) | [All levels](../README.md) | [First-Class Functions →](../level-05-functions-deep-dive/02-first-class-functions.md)
+[← Practice Set 4](../level-04-scope-let-const/07-practice-set-4.md) | [Level 5 index](README.md) | [All levels](../README.md) | [First-Class Functions →](../level-05-functions-deep-dive/02-first-class-functions.md)

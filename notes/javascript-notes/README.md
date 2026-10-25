@@ -53,12 +53,11 @@ Each level builds on the one before it. Click a level, then a slide. Every slide
 
 - [Scope](level-04-scope-let-const/01-scope.md)
 - [Scope Chain](level-04-scope-let-const/02-scope-chain.md)
-- [Block Scope](level-04-scope-let-const/03-block-scope.md)
-- [let & const Hoisting](level-04-scope-let-const/04-let-const-hoisting.md)
-- [let vs const vs var](level-04-scope-let-const/05-let-vs-const-vs-var.md)
-- [Types of Errors](level-04-scope-let-const/06-types-of-errors.md)
-- [Shadowing](level-04-scope-let-const/07-shadowing.md)
-- [Practice Set 4](level-04-scope-let-const/08-practice-set-4.md)
+- [Where Variables Live](level-04-scope-let-const/03-where-variables-live.md)
+- [let vs const vs var](level-04-scope-let-const/04-let-vs-const-vs-var.md)
+- [Types of Errors](level-04-scope-let-const/05-types-of-errors.md)
+- [Shadowing](level-04-scope-let-const/06-shadowing.md)
+- [Practice Set 4](level-04-scope-let-const/07-practice-set-4.md)
 
 ## [Level 5 : Functions Deep Dive](level-05-functions-deep-dive/README.md)
 *First-class functions, closures & the this keyword*

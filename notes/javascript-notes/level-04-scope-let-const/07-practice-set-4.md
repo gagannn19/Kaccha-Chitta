@@ -6,4 +6,4 @@
 - **Q4 :** Why is `const arr = []; arr.push(1);` allowed?
 
 ---
-[← Shadowing](../level-04-scope-let-const/07-shadowing.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Ways to Create a Function →](../level-05-functions-deep-dive/01-ways-to-create-a-function.md)
+[← Shadowing](../level-04-scope-let-const/06-shadowing.md) | [Level 4 index](README.md) | [All levels](../README.md) | [Ways to Create a Function →](../level-05-functions-deep-dive/01-ways-to-create-a-function.md)
