@@ -1,7 +1,5 @@
 # Overflow
 
-<sub>Level 2 · Slide 39</sub>
-
 What happens when content is bigger than its box
 
 ```css

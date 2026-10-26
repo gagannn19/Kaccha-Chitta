@@ -1,7 +1,5 @@
 # Combinator Selectors
 
-<sub>Level 1 · Slide 12</sub>
-
 Select elements based on how they are related
 
 | Selector | Meaning |

@@ -1,8 +1,6 @@
 # Shadows
 
-<sub>Level 3 · Slide 59</sub>
-
-Add depth to boxes & text
+Adds a **shadow** to a box or text, so it looks lifted.
 
 ```css
 box-shadow : 5px 5px 10px gray;
@@ -10,9 +8,14 @@ box-shadow : 0 4px 8px rgba(0, 0, 0, 0.3);
 text-shadow : 2px 2px 4px black;
 ```
 
-`x-offset | y-offset | blur | color`
+Values in order: `x-offset | y-offset | blur | color`
 
-add `inset` to put the shadow inside the box
+- **x-offset** → move shadow right (+) / left (−)
+- **y-offset** → move shadow down (+) / up (−)
+- **blur** → bigger = softer shadow
+- **color** → shadow color
+
+Add `inset` to put the shadow **inside** the box.
 
 ![shadows output](../images/shadows.png)
 

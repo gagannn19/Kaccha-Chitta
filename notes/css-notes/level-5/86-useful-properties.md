@@ -1,7 +1,5 @@
 # Useful Properties
 
-<sub>Level 5 · Slide 86</sub>
-
 | Property | Use |
 |---|---|
 | `cursor : pointer;` | hand cursor on hover (buttons, links) |

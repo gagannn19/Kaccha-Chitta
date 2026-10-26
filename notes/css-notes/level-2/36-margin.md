@@ -1,7 +1,5 @@
 # Margin
 
-<sub>Level 2 · Slide 36</sub>
-
 - margin-right
 - margin-left
 - margin-top

@@ -1,7 +1,5 @@
 # CSS
 
-<sub>Level 1 · Slide 3</sub>
-
 **C**ascading **S**tyle **S**heet
 
 It is a language that is used to describe the **style** of a document.

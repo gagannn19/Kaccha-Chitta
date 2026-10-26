@@ -1,7 +1,5 @@
 # Border : Shorthand
 
-<sub>Level 2 · Slide 32</sub>
-
 ```css
 border : 2px solid black;
 ```

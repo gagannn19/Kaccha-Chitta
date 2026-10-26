@@ -1,7 +1,5 @@
 # Border
 
-<sub>Level 2 · Slide 31</sub>
-
 Used to set an element's **border**
 
 ```css

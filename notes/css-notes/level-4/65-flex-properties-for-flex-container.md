@@ -1,7 +1,5 @@
 # Flex Properties : for Flex Container
 
-<sub>Level 4 · Slide 65</sub>
-
 - **justify-content** : alignment along the main axis.
   `flex-start / flex-end / center / space-between / space-around / space-evenly`
 - **flex-wrap** : `nowrap / wrap / wrap-reverse`

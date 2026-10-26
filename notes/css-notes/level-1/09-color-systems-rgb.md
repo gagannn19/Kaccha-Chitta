@@ -1,7 +1,5 @@
 # Color Systems : RGB
 
-<sub>Level 1 · Slide 9</sub>
-
 **RGB**
 
 ```css

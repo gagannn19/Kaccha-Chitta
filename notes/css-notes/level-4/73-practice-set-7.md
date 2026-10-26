@@ -1,7 +1,5 @@
 # Practice Set 7 🚀
 
-<sub>Level 4 · Slide 73</sub>
-
 **Qs:** Add a media query to implement the following:
 - the color of a div changes to green for viewport width less than 300px
 - the color of a div changes to pink for width between 300px & 400px

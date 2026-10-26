@@ -1,7 +1,5 @@
 # Border : border-radius
 
-<sub>Level 2 · Slide 33</sub>
-
 Used to **round the corners** of an element's outer border edge
 
 ```css

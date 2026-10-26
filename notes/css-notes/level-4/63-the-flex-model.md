@@ -1,7 +1,5 @@
 # The Flex Model
 
-<sub>Level 4 · Slide 63</sub>
-
 - flex container
 - flex item
 - main axis

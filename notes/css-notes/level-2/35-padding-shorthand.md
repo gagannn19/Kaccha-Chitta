@@ -1,7 +1,5 @@
 # Padding : Shorthand
 
-<sub>Level 2 · Slide 35</sub>
-
 ```css
 padding: 50px;
 padding: 1px 2px 3px 4px;

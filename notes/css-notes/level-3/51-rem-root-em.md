@@ -1,12 +1,10 @@
 # Rem (Root Em)
 
-<sub>Level 3 · Slide 51</sub>
+`rem` = times the **root (`<html>`) font size**, which is **16px** by default.
 
-| Unit | Relative to |
-|---|---|
-| `rem` | Font size of the root element. |
+> `2rem` = 32px — **same everywhere**, no matter the parent.
 
-> The root element is `<html>`, which is 16px by default. So `2rem` = 32px everywhere.
+✅ Easier than em because it does not add up.
 
 ![em vs rem](../images/em-rem.png)
 

@@ -1,7 +1,5 @@
 # Animation Shorthand
 
-<sub>Level 5 · Slide 83</sub>
-
 ```css
 animation : myName 2s linear 3s infinite normal
 ```

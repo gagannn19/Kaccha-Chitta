@@ -1,7 +1,5 @@
 # CSS Grid
 
-<sub>Level 4 · Slide 68</sub>
-
 A **two-dimensional** layout method (rows & columns together)
 
 ```css

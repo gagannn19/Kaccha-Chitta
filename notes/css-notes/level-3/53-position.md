@@ -1,8 +1,6 @@
 # Position
 
-<sub>Level 3 · Slide 53</sub>
-
-The position CSS property sets **how an element is positioned** in a document.
+`position` decides **where an element sits** on the page, and how `top`, `right`, `bottom`, `left` move it.
 
 ```css
 position : static / relative / absolute / fixed / sticky

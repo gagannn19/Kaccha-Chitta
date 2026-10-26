@@ -1,12 +1,10 @@
 # Position : values
 
-<sub>Level 3 · Slide 54</sub>
-
-- **static** - default position (The top, right, bottom, left, and z-index properties have no effect)
-- **relative** - element is relative to itself. (The top, right, bottom, left, and z-index will work)
-- **absolute** - positioned relative to its closest positioned ancestor. (removed from the flow)
-- **fixed** - positioned relative to browser. (removed from flow)
-- **sticky** - positioned based on user's scroll position
+- **static** → default. Normal place. `top`/`left`/`z-index` do **nothing**.
+- **relative** → moves from **its own normal place**. Its space stays.
+- **absolute** → moves inside the **nearest parent that has a position** (not static). Removed from the flow (others fill its space).
+- **fixed** → stuck to the **browser screen**. Does not move on scroll. Removed from flow.
+- **sticky** → normal until you scroll to it, then **sticks** (like a sticky header).
 
 ![position values](../images/position.png)
 

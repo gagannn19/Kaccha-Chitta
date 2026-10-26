@@ -1,7 +1,5 @@
 # Min & Max Width
 
-<sub>Level 2 · Slide 40</sub>
-
 Limit how small or big an element can get
 
 ```css

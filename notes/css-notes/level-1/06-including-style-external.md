@@ -1,7 +1,5 @@
 # Including Style (External)
 
-<sub>Level 1 · Slide 6</sub>
-
 **External Stylesheet** ⭐ (best way)
 
 Writing CSS in a separate document & linking it with the HTML file

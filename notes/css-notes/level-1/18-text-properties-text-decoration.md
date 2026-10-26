@@ -1,7 +1,5 @@
 # Text Properties : text-decoration
 
-<sub>Level 1 · Slide 18</sub>
-
 ```css
 text-decoration : underline / overline / line-through
 ```

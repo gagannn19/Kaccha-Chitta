@@ -1,7 +1,5 @@
 # Basic Syntax
 
-<sub>Level 1 · Slide 4</sub>
-
 ```css
 h1 {
     color: red;

@@ -1,7 +1,5 @@
 # Text Properties : font-weight
 
-<sub>Level 1 · Slide 19</sub>
-
 ```css
 font-weight : normal / bold / bolder / lighter
 font-weight : 100-900

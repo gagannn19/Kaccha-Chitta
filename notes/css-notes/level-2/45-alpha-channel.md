@@ -1,10 +1,14 @@
 # Alpha Channel
 
-<sub>Level 2 · Slide 45</sub>
+**Alpha channel** = how **transparent** a color is. It is a number from **0 to 1**:
+
+- `0` → fully transparent (invisible)
+- `0.5` → half see-through
+- `1` → fully solid (normal)
 
 **opacity** (0 to 1)
 
-**RGBA**
+**RGBA** = RGB + **A**lpha (the 4th value)
 
 ```css
 color: rgba(255, 0, 0, 0.5);

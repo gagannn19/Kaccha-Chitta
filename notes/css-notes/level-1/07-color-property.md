@@ -1,7 +1,5 @@
 # Color Property
 
-<sub>Level 1 · Slide 7</sub>
-
 Used to set the color of **foreground** (text)
 
 ```css

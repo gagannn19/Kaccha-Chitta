@@ -1,15 +1,16 @@
 # z-index
 
-<sub>Level 3 · Slide 55</sub>
+When elements **overlap**, `z-index` decides **which one is on top**.
 
-It decides the **stack level** of elements.
-Overlapping elements with a larger z-index cover those with a smaller one.
+**Bigger number = on top.**
 
 ```css
 z-index : auto (0)
-z-index : 1 / 2 / ...
-z-index : -1 / -2 / ...
+z-index : 1 / 2 / ...    /* comes forward */
+z-index : -1 / -2 / ...  /* goes behind */
 ```
+
+> Works only on positioned elements (not `static`).
 
 ![z-index 3D stack](../images/z-index.png)
 

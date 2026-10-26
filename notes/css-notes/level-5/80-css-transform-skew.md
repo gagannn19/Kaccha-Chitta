@@ -1,7 +1,5 @@
 # CSS Transform : skew
 
-<sub>Level 5 · Slide 80</sub>
-
 ```css
 transform: skew(30deg);
 ```

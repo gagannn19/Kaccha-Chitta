@@ -1,7 +1,5 @@
 # Practice Set 4 🚀
 
-<sub>Level 2 · Slide 46</sub>
-
 **Q1:** Create a webpage layout with a header, a footer & a content area containing 3 divs. Set the height & width of divs to 100px. (add the previous navbar in the header)
 
 **Q2:** Add borders to all the divs.

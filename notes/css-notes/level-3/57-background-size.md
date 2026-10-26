@@ -1,14 +1,14 @@
 # Background Size
 
-<sub>Level 3 · Slide 57</sub>
+Decides **how big** the background image is.
 
 ```css
 background-size : cover / contain / auto
 ```
 
-- **cover** = fits with no empty space
-- **contain** = fits with image fully visible
-- **auto** = original size
+- **cover** → fills the whole box (some image may get **cut**)
+- **contain** → whole image is **visible** (may leave empty space)
+- **auto** → image's **original size**
 
 ![background size output](../images/bg-size.png)
 

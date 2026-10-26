@@ -1,7 +1,5 @@
 # % in Animation
 
-<sub>Level 5 · Slide 84</sub>
-
 ```css
 @keyframes myName {
     0% { font-size : 20px; }

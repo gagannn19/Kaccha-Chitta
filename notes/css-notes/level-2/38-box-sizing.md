@@ -1,7 +1,5 @@
 # Box Sizing
 
-<sub>Level 2 · Slide 38</sub>
-
 Decides if width & height include padding and border
 
 ```css

@@ -1,7 +1,5 @@
 # Color Systems : Hex
 
-<sub>Level 1 · Slide 10</sub>
-
 **Hex (Hexadecimal)**
 
 ```css

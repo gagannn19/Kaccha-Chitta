@@ -1,7 +1,5 @@
 # Font Families
 
-<sub>Level 1 · Slide 21</sub>
-
 5 generic font families (browser picks a font of that type)
 
 - **serif** - letters have small strokes at the ends (Times New Roman)

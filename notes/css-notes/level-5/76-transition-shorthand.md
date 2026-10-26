@@ -1,7 +1,5 @@
 # Transition Shorthand
 
-<sub>Level 5 · Slide 76</sub>
-
 `property name | duration | timing-function | delay`
 
 ```css

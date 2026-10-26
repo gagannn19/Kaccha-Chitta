@@ -1,7 +1,5 @@
 # Flex Properties : Shorthand & spacing
 
-<sub>Level 4 · Slide 67</sub>
-
 ```css
 flex : 1;
 flex : 1 1 200px;   /* grow | shrink | basis */

@@ -1,7 +1,5 @@
 # Text Properties : text-transform
 
-<sub>Level 1 · Slide 24</sub>
-
 ```css
 text-transform : uppercase / lowercase / capitalize / none
 ```

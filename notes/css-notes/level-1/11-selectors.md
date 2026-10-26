@@ -1,7 +1,5 @@
 # Selectors
 
-<sub>Level 1 · Slide 11</sub>
-
 | Selector | Syntax |
 |---|---|
 | Universal Selector | `* { }` |

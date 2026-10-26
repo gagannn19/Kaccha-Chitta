@@ -1,7 +1,5 @@
 # Including Style
 
-<sub>Level 1 · Slide 5</sub>
-
 **Inline** : writing style directly inline on each element
 
 ```html

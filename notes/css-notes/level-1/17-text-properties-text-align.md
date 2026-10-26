@@ -1,7 +1,5 @@
 # Text Properties : text-align
 
-<sub>Level 1 · Slide 17</sub>
-
 ```css
 text-align : left / right / center
 ```

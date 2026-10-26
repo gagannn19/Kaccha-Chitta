@@ -1,7 +1,5 @@
 # Padding
 
-<sub>Level 2 · Slide 34</sub>
-
 - padding-left
 - padding-right
 - padding-top

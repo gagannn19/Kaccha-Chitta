@@ -1,8 +1,6 @@
 # Background Image
 
-<sub>Level 3 · Slide 56</sub>
-
-Used to set an image as background
+Puts an **image behind** the element's content.
 
 ```css
 background-image : url("image.jpeg");

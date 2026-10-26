@@ -1,7 +1,5 @@
 # CSS Transform : scale
 
-<sub>Level 5 · Slide 78</sub>
-
 ```css
 transform: scale(2);
 transform: scale(0.5);

@@ -1,7 +1,5 @@
 # Width
 
-<sub>Level 2 · Slide 30</sub>
-
 By default, it sets the content area **width** of the element
 
 ```css

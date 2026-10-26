@@ -1,7 +1,5 @@
 # CSS Transform : rotate
 
-<sub>Level 5 · Slide 77</sub>
-
 Used to apply **2D & 3D transformations** to an element
 
 ```css

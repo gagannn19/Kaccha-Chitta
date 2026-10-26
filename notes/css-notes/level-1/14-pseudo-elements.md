@@ -1,7 +1,5 @@
 # Pseudo-elements
 
-<sub>Level 1 · Slide 14</sub>
-
 Style a specific part of an element
 
 ```css

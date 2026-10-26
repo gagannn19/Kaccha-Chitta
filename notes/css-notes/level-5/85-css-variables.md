@@ -1,7 +1,5 @@
 # CSS Variables
 
-<sub>Level 5 · Slide 85</sub>
-
 Store a value once, reuse it everywhere
 
 ```css

@@ -1,10 +1,11 @@
 # Others
 
-<sub>Level 3 · Slide 52</sub>
+**Viewport** = the visible part of the browser screen.
 
-**vh** : relative to 1% viewport height
+- **vh** → 1vh = 1% of screen **height**
+- **vw** → 1vw = 1% of screen **width**
 
-**vw** : relative to 1% viewport width
+> `height: 100vh` = full screen height.
 
 ![vh and vw](../images/vh-vw.png)
 

@@ -1,7 +1,5 @@
 # Box Model in CSS
 
-<sub>Level 2 · Slide 28</sub>
-
 - Height
 - Width
 - Border

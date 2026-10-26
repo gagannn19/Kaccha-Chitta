@@ -1,7 +1,5 @@
 # Flex Properties : for Flex Item
 
-<sub>Level 4 · Slide 66</sub>
-
 - **align-self** : alignment of individual along the cross axis. (similar to align-items but for one element, and it overrides align-items)
 - **flex-grow** : how much a flex item will grow relative to the rest of the flex items if space is available
 - **flex-shrink** : how much a flex item will shrink relative to the rest of the flex items if space is not enough

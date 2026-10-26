@@ -1,7 +1,5 @@
 # Margin : Shorthand
 
-<sub>Level 2 · Slide 37</sub>
-
 ```css
 margin: 50px;
 margin: 1px 2px 3px 4px;

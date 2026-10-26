@@ -1,7 +1,5 @@
 # Units in CSS : Absolute
 
-<sub>Level 1 · Slide 22</sub>
-
 **pixels (px)**
 
 ```

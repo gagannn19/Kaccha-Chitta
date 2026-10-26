@@ -165,6 +165,13 @@
     ]
   },
   {
+    "name": "expressjs-notes",
+    "files": [
+      "README.md",
+      "change-notes.md"
+    ]
+  },
+  {
     "name": "html-notes",
     "files": [
       "README.md",
@@ -351,6 +358,75 @@
       "level-10-debouncing-throttling/README.md",
       "level-11-top-57-interview-questions/README.md",
       "level-11-top-57-interview-questions/questions.md"
+    ]
+  },
+  {
+    "name": "mongodb-notes",
+    "files": [
+      "README.md",
+      "change-notes.md"
+    ]
+  },
+  {
+    "name": "nodejs-notes",
+    "files": [
+      "README.md",
+      "change-notes.md",
+      "level-01-node-js-basics/01-what-is-node-js.md",
+      "level-01-node-js-basics/02-browser-js-vs-node-js.md",
+      "level-01-node-js-basics/03-install-run.md",
+      "level-01-node-js-basics/04-repl.md",
+      "level-01-node-js-basics/05-global-objects.md",
+      "level-01-node-js-basics/06-process-object.md",
+      "level-01-node-js-basics/07-practice-set-1.md",
+      "level-01-node-js-basics/README.md",
+      "level-02-modules-npm/01-what-is-a-module.md",
+      "level-02-modules-npm/02-commonjs-require.md",
+      "level-02-modules-npm/03-es-modules-import.md",
+      "level-02-modules-npm/04-npm.md",
+      "level-02-modules-npm/05-package-json.md",
+      "level-02-modules-npm/06-node-modules-package-lock.md",
+      "level-02-modules-npm/07-nodemon.md",
+      "level-02-modules-npm/08-practice-set-2.md",
+      "level-02-modules-npm/README.md",
+      "level-03-core-modules/01-path-module.md",
+      "level-03-core-modules/02-fs-read-write-files.md",
+      "level-03-core-modules/03-sync-vs-async-fs.md",
+      "level-03-core-modules/04-fs-promises.md",
+      "level-03-core-modules/05-os-module.md",
+      "level-03-core-modules/06-events-module.md",
+      "level-03-core-modules/07-practice-set-3.md",
+      "level-03-core-modules/README.md",
+      "level-04-how-node-js-works/01-single-threaded.md",
+      "level-04-how-node-js-works/02-blocking-vs-non-blocking.md",
+      "level-04-how-node-js-works/03-libuv-thread-pool.md",
+      "level-04-how-node-js-works/04-event-loop-in-node.md",
+      "level-04-how-node-js-works/05-nexttick-vs-setimmediate.md",
+      "level-04-how-node-js-works/06-practice-set-4.md",
+      "level-04-how-node-js-works/README.md",
+      "level-05-buffers-streams/01-buffer.md",
+      "level-05-buffers-streams/02-streams.md",
+      "level-05-buffers-streams/03-reading-with-streams.md",
+      "level-05-buffers-streams/04-pipe.md",
+      "level-05-buffers-streams/05-practice-set-5.md",
+      "level-05-buffers-streams/README.md",
+      "level-06-http-server/01-client-server.md",
+      "level-06-http-server/02-create-a-server.md",
+      "level-06-http-server/03-req-res.md",
+      "level-06-http-server/04-routing.md",
+      "level-06-http-server/05-sending-json.md",
+      "level-06-http-server/06-reading-post-body.md",
+      "level-06-http-server/07-status-codes.md",
+      "level-06-http-server/08-practice-set-6.md",
+      "level-06-http-server/README.md",
+      "level-07-real-world-node/01-environment-variables.md",
+      "level-07-real-world-node/02-callbacks-promises-async-await.md",
+      "level-07-real-world-node/03-error-handling.md",
+      "level-07-real-world-node/04-project-structure.md",
+      "level-07-real-world-node/05-practice-set-7.md",
+      "level-07-real-world-node/README.md",
+      "level-08-top-interview-questions/01-interview-questions.md",
+      "level-08-top-interview-questions/README.md"
     ]
   },
   {

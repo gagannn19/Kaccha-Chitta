@@ -1,7 +1,5 @@
 # Height
 
-<sub>Level 2 · Slide 29</sub>
-
 By default, it sets the content area **height** of the element
 
 ```css

@@ -1,7 +1,5 @@
 # Text Properties : more
 
-<sub>Level 1 · Slide 25</sub>
-
 ```css
 font-size : 20px / 2em / 1.5rem;
 font-style : normal / italic;

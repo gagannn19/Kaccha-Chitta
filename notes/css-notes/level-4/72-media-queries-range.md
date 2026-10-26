@@ -1,7 +1,5 @@
 # Media Queries : range
 
-<sub>Level 4 · Slide 72</sub>
-
 ```css
 @media (min-width : 200px) and (max-width : 300px) {
     div {

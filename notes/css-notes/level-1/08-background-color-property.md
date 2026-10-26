@@ -1,7 +1,5 @@
 # Background Color Property
 
-<sub>Level 1 · Slide 8</sub>
-
 Used to set the color of **background**
 
 ```css

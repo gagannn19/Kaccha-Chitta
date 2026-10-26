@@ -1,7 +1,5 @@
 # Practice Set 8 🚀
 
-<sub>Level 5 · Slide 87</sub>
-
 **Qs:** Create a simple loader using CSS
 
 - **Step1** : create a div with circular shape & a thick border from one end (top/bottom/left/right)

@@ -1,7 +1,5 @@
 # Animation
 
-<sub>Level 5 · Slide 81</sub>
-
 To animate CSS elements
 
 ```css

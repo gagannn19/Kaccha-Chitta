@@ -1,7 +1,5 @@
 # Flexbox Direction
 
-<sub>Level 4 · Slide 64</sub>
-
 It sets how flex items are placed in the flex container, along which axis and direction.
 
 ```css

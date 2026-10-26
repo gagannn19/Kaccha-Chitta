@@ -1,7 +1,5 @@
 # Specificity
 
-<sub>Level 1 · Slide 15</sub>
-
 Decides which style wins when two rules target the same element
 
 ```

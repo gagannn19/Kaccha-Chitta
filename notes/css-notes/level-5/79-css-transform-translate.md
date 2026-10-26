@@ -1,7 +1,5 @@
 # CSS Transform : translate
 
-<sub>Level 5 · Slide 79</sub>
-
 ```css
 transform: translate(20px);
 transform: translate(20px, 50px);

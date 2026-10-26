@@ -1,7 +1,5 @@
 # Grid Item
 
-<sub>Level 4 · Slide 69</sub>
-
 Make an item span multiple columns or rows
 
 ```css

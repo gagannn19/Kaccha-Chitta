@@ -1,7 +1,5 @@
 # Display Property
 
-<sub>Level 2 · Slide 43</sub>
-
 ```css
 display: inline / block / inline-block / none
 ```

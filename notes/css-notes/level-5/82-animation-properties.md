@@ -1,7 +1,5 @@
 # Animation Properties
 
-<sub>Level 5 · Slide 82</sub>
-
 - animation-name
 - animation-duration
 - animation-timing-function

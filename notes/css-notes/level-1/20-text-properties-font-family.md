@@ -1,7 +1,5 @@
 # Text Properties : font-family
 
-<sub>Level 1 · Slide 20</sub>
-
 ```css
 font-family : arial
 font-family : arial, roboto

@@ -1,7 +1,5 @@
 # Transitions
 
-<sub>Level 5 · Slide 75</sub>
-
 Transitions enable you to define the transition between two states of an element.
 
 - **transition-property** : property you want to transition (font-size, width etc.)

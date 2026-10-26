@@ -1,7 +1,5 @@
 # Practice Set 3 🚀
 
-<sub>Level 2 · Slide 41</sub>
-
 **Q1:** Create a div with height & width of 100px. Set its background color to green & the border radius to 50%.
 
 **Q2:** Create the following navbar.

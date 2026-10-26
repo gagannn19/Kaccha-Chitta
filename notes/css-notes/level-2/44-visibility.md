@@ -1,7 +1,5 @@
 # Visibility
 
-<sub>Level 2 · Slide 44</sub>
-
 ```css
 visibility: hidden;
 ```

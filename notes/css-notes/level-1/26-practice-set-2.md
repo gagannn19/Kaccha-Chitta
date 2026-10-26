@@ -1,7 +1,5 @@
 # Practice Set 2 🚀
 
-<sub>Level 1 · Slide 26</sub>
-
 **Q1:** Create a heading centred on the page with all of its text capitalized by default.
 
 **Q2:** Set the font family of all the content in the document to "Times New Roman".

@@ -1,7 +1,5 @@
 # Media Queries
 
-<sub>Level 4 · Slide 71</sub>
-
 Help create a **responsive** website
 
 ```css

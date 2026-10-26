@@ -1,13 +1,13 @@
 # Percentage (%)
 
-<sub>Level 3 · Slide 49</sub>
-
-It is often used to define a size as **relative to an element's parent** object.
+`%` = a part of the **parent's** size.
 
 ```css
-width : 33% ;
-margin-left : 50% ;
+width : 33% ;        /* 1/3 of parent's width */
+margin-left : 50% ;  /* half of parent's width */
 ```
+
+> Parent is 600px wide → `width: 50%` = 300px.
 
 ![percent relative to parent](../images/percent.png)
 

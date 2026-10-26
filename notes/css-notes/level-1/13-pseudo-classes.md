@@ -1,7 +1,5 @@
 # Pseudo-classes
 
-<sub>Level 1 · Slide 13</sub>
-
 Style an element in a special state
 
 ```css

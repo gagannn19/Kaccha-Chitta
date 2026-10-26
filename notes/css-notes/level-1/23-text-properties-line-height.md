@@ -1,7 +1,5 @@
 # Text Properties : line-height
 
-<sub>Level 1 · Slide 23</sub>
-
 ```css
 line-height : 2px
 line-height : 3
