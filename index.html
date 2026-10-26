@@ -48,6 +48,11 @@
         <input type="file" id="fileInput" accept=".md,.markdown,.txt,text/markdown,text/plain" multiple hidden>
       </div>
 
+      <button class="continue" id="continue" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-3.5L7 20z"/></svg>
+        <span class="continue-text"><small>Continue reading</small><span id="continueName"></span></span>
+      </button>
+
       <nav class="tree" id="tree" aria-label="Notes"></nav>
 
       <p class="hint" id="fsHint" hidden>
@@ -66,11 +71,9 @@
           <span class="crumb" id="crumb"></span>
           <input class="title" id="title" spellcheck="false" autocomplete="off" aria-label="Note name" disabled>
         </div>
-        <div class="segmented" role="group" aria-label="View mode">
-          <button data-mode="edit" title="Editor only">Write</button>
-          <button data-mode="split" title="Side by side">Split</button>
-          <button data-mode="preview" title="Preview only">Read</button>
-        </div>
+        <button class="icon-btn" id="bookmark" title="Bookmark this note" aria-label="Bookmark this note" aria-pressed="false" disabled>
+          <svg viewBox="0 0 24 24"><path d="M7 4h10v16l-5-3.5L7 20z"/></svg>
+        </button>
         <button class="icon-btn" id="download" title="Download this note" aria-label="Download this note" disabled>
           <svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14"/></svg>
         </button>
@@ -82,7 +85,7 @@
         </button>
       </header>
 
-      <section class="workspace" id="workspace" data-mode="split">
+      <section class="workspace" id="workspace" data-mode="preview">
         <textarea id="editor" class="editor" spellcheck="true" placeholder="Start writing…" aria-label="Markdown editor"></textarea>
         <article id="preview" class="preview md" aria-label="Preview"></article>
         <div class="empty" id="empty">
@@ -93,7 +96,7 @@
               <button class="btn primary" data-action="new">New note</button>
               <button class="btn" data-action="folder">Open folder</button>
             </div>
-            <p class="keys"><kbd>⌘</kbd><kbd>S</kbd> save &nbsp;·&nbsp; <kbd>⌘</kbd><kbd>E</kbd> switch view &nbsp;·&nbsp; drop .md files anywhere to import</p>
+            <p class="keys"><kbd>⌘</kbd><kbd>S</kbd> save &nbsp;·&nbsp; drop .md files anywhere to import</p>
           </div>
         </div>
       </section>

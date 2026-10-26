@@ -24,7 +24,6 @@ Your rough notebook. Everything here is plain **markdown**.
 | Keys | Action |
 | --- | --- |
 | ⌘/Ctrl + S | Save now (it also autosaves) |
-| ⌘/Ctrl + E | Switch Write / Split / Read |
 
 - [x] Make a notes app
 - [ ] Write something
@@ -177,7 +176,16 @@ Your rough notebook. Everything here is plain **markdown**.
   });
 
   const ACRONYMS = new Set(['html', 'css', 'js', 'ts', 'api', 'sql', 'dsa', 'os', 'ui', 'ux', 'dom', 'http', 'git']);
-  const SPECIAL = { oops: 'OOPs', javascript: 'JavaScript', dbms: 'DBMS' };
+  const SPECIAL = { oops: 'OOPs', javascript: 'JavaScript', dbms: 'DBMS', nodejs: 'Node.js', expressjs: 'Express.js', mongodb: 'MongoDB' };
+
+  // Sidebar order of the notes/ collections: web dev first, then core subjects, DSA last.
+  // Collections not listed here go just before DSA.
+  const COLLECTION_ORDER = ['html', 'css', 'javascript', 'react', 'nodejs', 'expressjs', 'mongodb', 'sql', 'oops', 'cs', 'os', 'dbms', 'cn', 'dsa'];
+  const collectionRank = (dir) => {
+    const i = COLLECTION_ORDER.indexOf(dir.toLowerCase().replace(/-?notes\d*$/, ''));
+    return i < 0 ? COLLECTION_ORDER.length - 1.5 : i;
+  };
+  const byCollection = (a, b) => collectionRank(a) - collectionRank(b) || byPath(a, b);
   const prettyName = (n) => n.split(/[-_\s]+/).filter(Boolean).map((w) => {
     const lw = w.toLowerCase();
     return SPECIAL[lw] ?? (ACRONYMS.has(lw) ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1));
@@ -266,6 +274,7 @@ Your rough notebook. Everything here is plain **markdown**.
     plus: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
     refresh: '<svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.05-4.95M19 4v4h-4"/></svg>',
     close: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    bookmark: '<svg class="mark" viewBox="0 0 24 24"><path d="M7 4h10v16l-5-3.5L7 20z"/></svg>',
   };
 
   // ---------- Helpers ----------
@@ -397,7 +406,9 @@ Your rough notebook. Everything here is plain **markdown**.
     for (const p of files) {
       const active = state.current?.source === source && state.current.path === p;
       const pinned = depth === 0 && pinRank(p) < PINNED.length;
-      const row = makeRow('file' + (active ? ' active' : '') + (pinned ? ' pinned' : ''), ICON.file, fileLabel(p), depth);
+      const isMark = isBookmarked(source, p);
+      const row = makeRow('file' + (active ? ' active' : '') + (pinned ? ' pinned' : '') + (isMark ? ' bookmarked' : ''), ICON.file, fileLabel(p), depth);
+      if (isMark) row.insertAdjacentHTML('beforeend', ICON.bookmark);
       row.title = p;
       row.addEventListener('click', () => { openNote(source, p); el.app.classList.remove('nav-open'); });
       into.append(row);
@@ -476,6 +487,59 @@ Your rough notebook. Everything here is plain **markdown**.
     el.tree.replaceChildren(frag);
   }
 
+  // ---------- Bookmark ----------
+  // One bookmark (note + scroll position), kept in this browser, to continue reading later.
+  let bookmark = prefs.get('bookmark', null);
+  const isBookmarked = (source, path) => !!bookmark && bookmark.source === source.id && bookmark.path === path;
+
+  function updateBookmark() {
+    const c = state.current;
+    const on = !!c && isBookmarked(c.source, c.path);
+    const btn = $('#bookmark');
+    btn.disabled = !c;
+    btn.classList.toggle('on', on);
+    btn.setAttribute('aria-pressed', String(on));
+    btn.title = on ? 'Remove bookmark' : 'Bookmark this note';
+    const src = bookmark && sourceById(bookmark.source);
+    const cont = $('#continue');
+    cont.hidden = !src || on;
+    if (src) {
+      $('#continueName').textContent = `${src.name} / ${fileLabel(bookmark.path)}`;
+      cont.title = `${src.name} / ${bookmark.path}`;
+    }
+  }
+
+  function toggleBookmark() {
+    const c = state.current;
+    if (!c) return;
+    const on = isBookmarked(c.source, c.path);
+    bookmark = on ? null : { source: c.source.id, path: c.path, scroll: el.preview.scrollTop };
+    prefs.set('bookmark', bookmark);
+    updateBookmark();
+    renderTree();
+    toast(on ? 'Bookmark removed' : 'Bookmarked. Continue from here next time');
+  }
+
+  async function openBookmark() {
+    const src = bookmark && sourceById(bookmark.source);
+    if (!src?.ready || !src.paths().includes(bookmark.path)) { toast('The bookmarked note is not available'); return; }
+    await openNote(src, bookmark.path);
+    const c = state.current;
+    if (c && isBookmarked(c.source, c.path)) {
+      requestAnimationFrame(() => { el.preview.scrollTop = bookmark.scroll || 0; });
+    }
+    el.app.classList.remove('nav-open');
+  }
+
+  // While reading the bookmarked note, keep its saved scroll position up to date.
+  let bookmarkScrollTimer;
+  el.preview.addEventListener('scroll', () => {
+    const c = state.current;
+    if (!c || !isBookmarked(c.source, c.path)) return;
+    clearTimeout(bookmarkScrollTimer);
+    bookmarkScrollTimer = setTimeout(() => { bookmark.scroll = el.preview.scrollTop; prefs.set('bookmark', bookmark); }, 300);
+  });
+
   // ---------- Editor ----------
   function showEmpty(isEmpty) {
     el.workspace.classList.toggle('is-empty', isEmpty);
@@ -486,6 +550,7 @@ Your rough notebook. Everything here is plain **markdown**.
 
   function updateHeader() {
     const c = state.current;
+    updateBookmark();
     if (!c) {
       el.title.value = '';
       el.crumb.textContent = '';
@@ -769,13 +834,6 @@ Your rough notebook. Everything here is plain **markdown**.
     if (notes.length === 1) openNote(local, last);
   }
 
-  function setMode(mode) {
-    el.workspace.dataset.mode = mode;
-    document.querySelectorAll('.segmented button').forEach((b) => b.classList.toggle('on', b.dataset.mode === mode));
-    prefs.set('mode', mode);
-    if (mode !== 'edit') renderPreview();
-  }
-
   function toggleTheme() {
     const dark = document.documentElement.dataset.theme
       ? document.documentElement.dataset.theme === 'dark'
@@ -845,21 +903,16 @@ Your rough notebook. Everything here is plain **markdown**.
   $('#openSidebar').addEventListener('click', () => el.app.classList.add('nav-open'));
   $('#closeSidebar').addEventListener('click', () => el.app.classList.remove('nav-open'));
   $('#scrim').addEventListener('click', () => el.app.classList.remove('nav-open'));
-  document.querySelectorAll('.segmented button').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  $('#bookmark').addEventListener('click', toggleBookmark);
+  $('#continue').addEventListener('click', openBookmark);
   document.querySelector('[data-action="new"]').addEventListener('click', () => newNote());
   document.querySelector('[data-action="folder"]').addEventListener('click', openFolder);
 
-  const MODES = ['edit', 'split', 'preview'];
   document.addEventListener('keydown', (e) => {
     const mod = e.metaKey || e.ctrlKey;
     if (!mod || e.altKey) return;
     const k = e.key.toLowerCase();
     if (k === 's') { e.preventDefault(); save().then((ok) => ok && state.current && toast('Saved')); }
-    if (k === 'e') {
-      e.preventDefault();
-      const i = MODES.indexOf(el.workspace.dataset.mode);
-      setMode(MODES[(i + 1) % MODES.length]);
-    }
   });
 
   // Drag & drop .md files to import
@@ -908,7 +961,7 @@ Your rough notebook. Everything here is plain **markdown**.
   async function syncServer(staticMode = state.staticNotes) {
     const cols = await (await api('GET', staticMode ? 'notes/index.json' : 'api/collections')).json();
     const existing = new Map(state.sources.filter((s) => s.kind === 'server').map((s) => [s.dir, s]));
-    const fresh = cols.sort((a, b) => byPath(a.name, b.name)).map(({ name, files }) => {
+    const fresh = cols.sort((a, b) => byCollection(a.name, b.name)).map(({ name, files }) => {
       const s = existing.get(name) ?? new ServerSource(name, staticMode);
       s.files = files.sort(byPath);
       return s;
@@ -936,7 +989,6 @@ Your rough notebook. Everything here is plain **markdown**.
   async function boot() {
     const theme = prefs.get('theme', null);
     if (theme) document.documentElement.dataset.theme = theme;
-    setMode(prefs.get('mode', 'split'));
     $('#fsHint').hidden = canOpenFolders;
     showEmpty(true);
 
@@ -960,6 +1012,7 @@ Your rough notebook. Everything here is plain **markdown**.
       }
     }
     renderTree();
+    updateBookmark();
 
     const last = prefs.get('last', null);
     const src = last && sourceById(last.source);
