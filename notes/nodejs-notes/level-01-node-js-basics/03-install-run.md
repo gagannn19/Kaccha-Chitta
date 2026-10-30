@@ -1,22 +1,33 @@
-# Install & Run
+# Install & Run 🛠️
 
 *Run your first Node file*
 
-1. Download from **nodejs.org** (pick the **LTS** version)
-2. Check it is installed :
+## 1️⃣ Download
+
+Go to **nodejs.org** and pick the **LTS** version.
+
+| Version | What it means |
+|---|---|
+| ✅ **LTS** (Long-Term Support) | **stable**, best for beginners & real projects |
+| 🧪 **Current** | **latest features**, but changes more often |
+
+## 2️⃣ Check it is installed
 
 ```bash
 node -v    # v20.x.x
 npm -v     # npm comes with Node
 ```
 
-3. Make a file `app.js` :
+> 📦 **npm** (Node Package Manager) downloads & manages **ready-made code (packages)** written by other developers, so we don't write everything from scratch.
+> Example : `npm install react` adds React to our project.
+
+## 3️⃣ Make a file `app.js`
 
 ```js
 console.log("Hello from Node!");
 ```
 
-4. Run it in the terminal :
+## 4️⃣ Run it in the terminal
 
 ```bash
 node app.js    # Hello from Node!
