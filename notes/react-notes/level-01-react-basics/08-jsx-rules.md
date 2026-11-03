@@ -52,7 +52,7 @@ Two things are happening:
 1️⃣ **Outer `{ }`** → `style={...}` lets us put **JavaScript** inside JSX (like `{name}`)
 2️⃣ **Inner `{ }`** → `{ color: "red" }` is a **JavaScript object** holding the CSS properties.
 
-## Why JavaScript object not CSS?
+### Why JavaScript object not CSS?
 > Because React’s style attribute expects a JavaScript object, not a CSS string.
 
 ```jsx

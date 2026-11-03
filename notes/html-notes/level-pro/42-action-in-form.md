@@ -1,6 +1,6 @@
 # Action in Form
 
-Action attribute is used to define what action needs to be performed when a form is submitted
+The action attribute in an HTML form specifies where the form data will be sent when the user submits the form.
 
 ```html
 <form action="/action.php" >

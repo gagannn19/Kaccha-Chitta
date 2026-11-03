@@ -22,5 +22,7 @@ Used to display headings in HTML.
 
 > 💡 Use only **one `<h1>`** per page (like one title per book).
 
+> Use heading tags (H1–H6) to structure content, not to change text size. Use CSS for styling to maintain the structure and importance of the content of the webpage.
+
 ---
 [← Basic HTML Tags](12-basic-html-tags.md) · [Level 2](README.md) · [Home](../README.md) · [Paragraph Tag →](14-paragraph-tag.md)
