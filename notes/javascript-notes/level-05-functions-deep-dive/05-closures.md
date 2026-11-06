@@ -16,7 +16,10 @@ fn();   // 1
 fn();   // 2   count is remembered!
 ```
 
-fn = innerbackpack (closure)count : 2
+```text
+fn = inner  🎒 backpack (closure)
+              └─ count : 2
+```
 
 - When inner is returned, it carries a **backpack** of its outer variables
 - Even after outer() finished, inner can still read & change **count**

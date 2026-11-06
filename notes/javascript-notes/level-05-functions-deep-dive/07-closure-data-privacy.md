@@ -19,5 +19,14 @@ c2.get();        // 0
 count;           // ReferenceError - can't touch it
 ```
 
+```text
+Each call to createCounter() = new EC = new backpack
+
+c1 ─► { increment, decrement, get }  🎒 count : 2
+c2 ─► { increment, decrement, get }  🎒 count : 0
+
+Global EC : count ❌ not here → only the functions can reach it
+```
+
 ---
 [← How a Closure Forms](../level-05-functions-deep-dive/06-how-a-closure-forms.md) | [Level 5 index](README.md) | [All levels](../README.md) | [setTimeout + Closure →](../level-05-functions-deep-dive/08-settimeout-closure.md)
